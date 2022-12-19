@@ -1,0 +1,61 @@
+<%= turbo_stream.update "sample-project" do %>
+  Content<div class="ic-drop-down w-[25px] h-[25px] bg-cover -rotate-90"></div><div class="clr-slate" ><%= @category.title %></div>
+<% end %>
+
+<%= turbo_stream.replace "courses-table" do %>
+  <%= render partial: 'courses/courses_table'%>
+<% end %>
+
+<%= turbo_stream.update "selected_category" do %>
+    <%= @category.title %>
+    <div class="ic-drop-down-w text-white h-full px-[18px]"></div>
+  </button>
+<% end %>
+
+<%= turbo_stream.replace "category-menu" do %>
+  <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer fixed-menu hidden" id="category-menu" >
+    <% @categories.each do |category| %>
+      <%= link_to category_path(category), data:{turbo_stream: true} do %>
+        <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]">
+          <div><%= category.title %></div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= turbo_stream.update "filter-pagination" do %>
+  <div class="font-medium text-[14px] leading-[21px] text-[#B5B7C0]"><%= page_entries_info @courses %></div>
+  <div><%= will_paginate @courses, inner_window: 2 , outer_window: 0, renderer: @paginate_turbo_stream %></div>
+<% end %>
+
+<%= turbo_stream.replace "new_course" do %>
+  <%= link_to new_course_path(id: @category.id), data:{turbo_stream: true}, id: "new_course" do %>
+    <button class="w-fit px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue">
+      <div class="ic-plus w-[15px] h-[15px] mr-[12px]"></div>
+      Create
+    </button>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update 'search-field' do %>
+  <div class="h-full relative search-container mr-[10px]">
+      <%= search_form_for @query, url: filter_courses_path, class: 'h-full', data:{turbo_stream: true}, id: 'filter-search-form' do |f| %>
+        <%= f.search_field :title_cont, class: 'max-w-[216px] dark:bg-dark dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white w-full h-full bor-slate outline-none focus:outline-slate-500 rounded-lg bg-[#F4F6FF]', data:{ action: 'focus->manage-user#searchHide blur->manage-user#searchHide input->manage-user#submitForm'}, html: {autocomplete: 'off'} %>
+        <%= f.hidden_field :categories_id_eq, value: @category.id %>
+        <%= hidden_field_tag :parent_id, @category.id %>
+        <%= hidden_field_tag :from, 'records-table' %>
+        <span class="absolute text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+        <%= f.submit '', class: 'hidden', class: 'flt-submit' %>
+      <% end %>
+    </div>
+<% end %>
+
+<%= turbo_stream.update 'create-course' do %>
+  <%= link_to new_course_path(category_id: @category.id), data:{turbo_stream: true}, id: "new_course" do %>
+    <button class="w-fit px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue">
+      <div class="ic-plus w-[15px] h-[15px] mr-[12px]"></div>
+      Create
+    </button>
+  <% end %>
+<% end %>

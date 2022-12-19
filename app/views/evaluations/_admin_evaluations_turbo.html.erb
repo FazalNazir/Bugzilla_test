@@ -1,0 +1,20 @@
+<%= turbo_stream.replace "evaluation-table-container" do %>
+    <div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden h-full" id="evaluation-table-container">
+      <%= render partial: 'shared/records_table', locals:{records: @evaluations, name: 'trainee', clas: params[:clas] || 'evaluation', rec_del_path: method(:evaluation_path), rec_edit_path: method(:edit_evaluation_path), rec_bulk_path: method(:edit_evaluation_path)} %>
+    </div>
+  <% end %>
+
+  <%= turbo_stream.replace "search-container" do %>
+    <div class="h-[38px] relative search-container" id="search-container">
+      <%= search_form_for @query, class: 'h-full', url: '#', data:{turbo_stream: true}, id: 'evaluation-search-form' do |f| %>
+        <%= f.search_field :enrollment_user_name_cont, class: 'max-w-[216px] dark:bg-dark dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white w-full h-full bor-slate outline-none focus:outline-slate-500 rounded-lg bg-[#F4F6FF]', data:{ action: 'focus->manage-user#searchHide blur->manage-user#searchHide input->manage-user#submitForm'} %>
+        <span class="absolute text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+        <%= f.submit '', class: 'hidden', class: 'flt-submit' %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= hide_selected_task_container(params[:perform]) %>
+  <%= hide_search_bar(params[:clas], params[:perform]) %>
+  <%= hide_reqest_button(params[:clas], params[:perform]) %>
+  <%= show_filters_button(params[:clas], params[:perform], @query) %>
+  <%= update_selection_path(@task, params[:perform]) %>

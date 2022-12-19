@@ -1,0 +1,47 @@
+<div class="w-fcol h-[calc(100vh-175px)] pt-[20px] bg-white dark:bg-dark transition-all rounded-3xl mb-[33px]" data-controller="manage-user" data-manage-user-checked-value="0">
+  <div class="w-full h-[calc(100%-150px)]">
+    <div class="w-full jus-b-item-c pt-[8px] pl-[25px] relative">
+      <div class="font-semibold text-[22px] leading-[33px] dark:text-white">Syncs</div>
+      <div class="flex">
+        <div class="jus-c-item-c mr-[20px] absolute left-[calc(50%-67px)] top-[-19px] bg-white dark:bg-light-dark rounded-full box-shadow-sm px-[15px] py-[5px]">
+          <div class="text-slate-[800] mr-[10px] text-[14px] font-medium dark:text-white">List View</div>
+          <%= link_to syncs_path(list: !params[:list]) do %>
+            <div class="selection_container transition-all w-[34px] h-[17px] rounded-full <%= params[:list] ? 'bg-blue' : 'bg-[#7E7E7E]'%> relative cursor-pointer"><div class="transition-all w-[13px] h-[13px] bg-white rounded-full absolute top-[2px] <%= params[:list] ? 'right-[2px]' : 'right-[19px]' %>"></div>
+            </div>
+          <% end %>
+        </div>
+        <div class="flex selection relative">
+          <%= render partial: 'shared/default_button', locals: { path: new_sync_path, icon: 'ic-plus', text: 'Create' } %>
+          <a href="<%= synchronize_events_path(id: "LND-USER-#{current_user.id}-WATCH-CHANNELM-ID", token: "LND-USER-#{current_user.id}-WATCH-CHANNELM-TOKEN") %>" data-turbo-stream="true" data-turbo-method="post" class="w-fit px-[20px] h-[42px] rounded-l-lg clr-blue jus-c-item-c cursor-pointer sel-blue" data-action="click->effects#animateSpin">
+            <div class="ic-sync w-[20px] mr-[10px] h-full bg-no-repeat bg-center" id="sync-icon-refresh"></div>
+            Refresh
+          </a>
+          <div class="w-[20px] h-[42px] mr-[20px] ic-drop-down-w text-white ml-[4px] bg px-[18px] cursor-pointer sel-blue rounded-r-lg rounded-l-none" data-action="click->manage-user#fetchData"></div>
+          <div class="w-[267px] h-[150px] box-shadow-sm absolute rounded-lg bg-white dark:bg-light-dark dark:text-white right-[0px] top-[45px] pt-[24px] z-[1] fetch-menu jus-s-item-c flex-col hidden">
+            <% unless current_user.watch_record.present? && current_user.watch_record.expiration > DateTime.now %>
+              <a href="<%= watch_events_path %>" id="watch-icon" data-turbo-stream="true"><div class="ic-eye w-[30px] h-[30px] absolute top-2 right-2 rounded-full hover:box-shadow-sm cursor-pointer"></div></a>
+            <% end %>
+            <div class="w-[48px] h-[48px] bg-blue cursor-default mb-[16px] rounded-full jus-c-item-c"><div class="ic-sync w-[25px] h-[25px]" id="sync-icon"></div></div>
+            <div class="text-[15px] leading-[18px] font-semibold mb-[7px]">Refresh Info</div>
+            <div class="text-[12px] leading-[16px] mb-[7px]">Last Refreshed At: <span class="font-semibold" id="refresh-time"><%= current_user&.synchronization_record&.updated_at&.in_time_zone(TIME_ZONE)&.strftime('%d-%b-%Y ; %I:%M %p') || '---' %></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if params[:list] %>
+      <%= render partial: 'list_view' %>
+    <% else %>
+      <div class="py-[20px] h-full w-full">
+        <iframe id="google-calendar" src="https://calendar.google.com/calendar/embed?src=<%= current_user.preference.calendar_name %>&ctz=<%= TIME_ZONE %>&showTitle=0&mode=WEEK" class="w-full h-full" frameborder="0" scrolling="no"></iframe>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 hidden z-[100]" id="edit-modal">
+  </div>
+
+</div>
+
+<div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal hidden z-[100]" id="modal">
+  <%= render partial: 'shared/del_modal' %>
+</div>

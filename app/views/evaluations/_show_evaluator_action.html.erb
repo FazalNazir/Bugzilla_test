@@ -1,0 +1,9 @@
+<td class='clr-slate dark:text-slate-300 text-center text-[14px] leading-[21px] jus-c-item-c relative action-container min-h-[43px]'>
+  <div class='w-[30px] h-[30px] ic-action-options cursor-pointer translate-y-1' data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottom"></div>
+  <div class='w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu' id="action-menu-<%= evaluation.id %>" data-controller="manage-user">
+    <a href="<%= wizard_path(:evaluation_detail, evaluation_id: evaluation.id, flow: :detail)%>" data-turbo-stream="true" class= 'flex text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]'>
+        Detail
+    </a>
+    <div class="text-[14px] leading-[20px] clr-secondary hover:bg-blue hover:text-white w-full py-[10px] text-left px-[9px]" data-controller='manage-evaluation' data-action="click->manage-evaluation#showModal" data-modal="update" data-href="<%= evaluation_path(:evaluator_reject_request, evaluation_id: evaluation.id, perform: :evaluator_reject, flow: :evaluator_reject) %>">Reject</div>
+  </div>
+</td>

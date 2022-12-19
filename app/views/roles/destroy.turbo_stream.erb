@@ -1,0 +1,7 @@
+<%= turbo_stream.replace 'roles-table' do%>
+  <%= render partial: 'roles_table' %>
+<% end %>
+
+<%= render partial: 'shared/replace_pagination_links', locals: {records: @roles} %>
+<%= render partial: 'shared/show_flash' %>
+<%= render partial: 'shared/close_modals' %>

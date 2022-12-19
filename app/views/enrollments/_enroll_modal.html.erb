@@ -1,0 +1,400 @@
+<%=form_with url:enrollments_path, form:{class: 'hidden'}, html:{id: 'enroll-modal-form'} do |f| %>
+  <%= f.hidden_field :course_ids, value: @ids, id: 'bulk-course-ids', autocomplete: 'off'%>
+  <%= f.hidden_field :user_ids, value: '', id: 'bulk-user-ids', autocomplete: 'off'%>
+  <%= f.submit '', class: 'hidden', id: 'bulk-submit', autocomplete: 'off', data:{disable_with: false}%>
+<%end%>
+<div class="max-w-[1208px] max-h-[788px] w-full h-full absolute top-[calc(50%-394px)] left-[calc(50%-604px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark" data-controller= 'enroll-modal' data-action="click->enroll-modal#hideOptions">
+  <div class="w-flex h-full">
+    <div class="w-[20%] h-full border-r-[1px] bor-slate pt-[68px] flex flex-col jus-s-item-c">
+      <div class="w-[80%] flex">
+        <div class="rounded-full mr-[8px] border-[2px] active-part course-part"><div class="w-[68px] h-[68px] rounded-full ic-clipboard"></div></div>
+        <div class="h-[70px] w-fit flex flex-col jus-c-item-s">
+          <div class="font-medium text-[20px] leading-[30px] dark:text-white">Courses</div>
+          <div class="font-normal text-[17px] leading-[26px] dark:text-white"><span data-enroll-modal-target="courseValue"><%=@courses.count%></span> Selected</div>
+        </div>
+      </div>
+      <div class="w-[80%] flex">
+        <div class="w-[36px] h-[14px] border-r-[1px] my-[4px] bor-slate"></div>
+      </div>
+      <div class="w-[80%] flex">
+        <div class="rounded-full mr-[8px] border-[2px] in-active-part user-part"><div class="w-[68px] h-[68px] rounded-full ic-users"></div></div>
+        <div class="h-[70px] w-fit flex flex-col jus-c-item-s">
+          <div class="font-medium text-[20px] leading-[30px] dark:text-white">Users</div>
+          <div class="font-normal text-[17px] leading-[26px] dark:text-white hidden user-value"><span data-enroll-modal-target="userValue">0</span> Selected</div>
+        </div>
+      </div>
+      <div class="w-[80%] flex">
+        <div class="w-[36px] h-[14px] border-r-[1px] my-[4px] bor-slate"></div>
+      </div>
+      <div class="w-[80%] flex">
+        <div class="rounded-full mr-[8px] border-[2px] in-active-part enrollment-part"><div class="w-[68px] h-[68px] rounded-full ic-calendar-eg"></div></div>
+        <div class="h-[70px] w-fit flex flex-col jus-c-item-s">
+          <div class="font-medium text-[20px] leading-[30px] dark:text-white">Enrollment</div>
+        </div>
+      </div>
+    </div>
+    <div class="w-[80%] h-full right-menu">
+      <div class="w-full h-[74px] px-[26px] jus-e-item-c rounded-t-lg">
+        <div class="ic-cancel h-[20px] w-[20px]" data-action="click->effects#modal"></div>
+      </div>
+      <div class="w-full h-[625px] px-[48px] right-menu-courses">
+        <div class="text-[25px] leading-[38px] font-medium mb-[14px] dark:text-white">Selected Courses</div>
+        <div class="h-fit relative search-container mb-[20px] action-container">
+          <%= search_form_for @course_query, url: filter_courses_path, class: 'h-full', data:{turbo_stream: true}, id: 'enroll-filter-course-search-form' do |f| %>
+            <%= f.search_field :title_cont, class: 'search-inp w-full z-[3] relative bg-[rgba(0,0,0,0.05)] dark:bg-[rgba(0,0,0,0)] dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white h-[38px] bor-slate outline-none focus:outline-slate-500 rounded-lg', data:{ action: 'focus->manage-user#searchHide blur->manage-user#searchHide focus->effects#ApplyfixedPositionBottomCenter focus->manage-user#optionsShow input->enroll-modal#submitFilterCourseForm'} %>
+            <span class="absolute z-[2] text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+            <%= f.submit '', class: 'hidden', class: 'flt-submit'%>
+            <div class="w-[870px] h-full max-h-[437px] fixed top-[40px] bg-white dark:bg-light-dark dark:text-white pt-[28px] <%=@course_ids ? '' : 'hidden'%> fixed-menu action-menu">
+              <div class="overflow-y-scroll w-full h-[341px] px-[56px] parent-courses-container" id="categories-courses">
+                <%Category.all.each do |project|%>
+                  <div class="w-full h-[24px] overflow-hidden cursor-pointer">
+                    <div class="flex mb-[10px]" data-action="click->enroll-modal#showCourses">
+                      <div class="w-[24px] h-[24px] ic-drop-down-g mr-[10px] -rotate-90 transition_all"></div>
+                      <div class="w-[24px] h-[24px] ic-folder-plus mr-[10px]"></div>
+                      <span><%=project.title%></span>
+                    </div>
+                    <%project.courses.each do |course|%>
+                      <div class="jus-s-item-c ml-[10px] mb-[10px]">
+                        <input type="checkbox" id="check_all" class="hidden emp-check" name="course_all" value="val" data-action="change->manage-user#check" autocomplete="off" data-id="<%=course.id%>" data-project="<%=project.title%>" data-course="<%=course.title%>">
+                        <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+                        <div class="w-[24px] h-[24px] ic-page mr-[10px]"></div><span><%=course.title%></span>
+                      </div>
+                    <%end%>
+                  </div>
+                <%end%>
+              </div>
+              <div class="h-[68px] jus-b-item-c w-full border-t-[2px] bor-slate px-[56px]">
+                <div class="clr-blue">Delete all</div>
+                <button class="w-[100px] px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue" data-action="enroll-modal#addCourses">
+                  Add
+                </button>
+              </div>
+            </div>
+          <%end%>
+        </div>
+        <div class="w-full jus-b-item-c border-b-[2px] bot-slate pb-[14px] operations-menu">
+          <div class="dark:text-white">Selected: <span data-enroll-modal-target="courseValue"><%=@courses.count%></span></div>
+          <div class="clr-blue cursor-pointer" data-action="click->enroll-modal#removeAllCourses">delete all</div>
+        </div>
+        <div class="overflow-y-scroll w-full h-[400px] px-[5px] mb-[50px] courses-container">
+          <div class="py-[20px] jus-b-item-c default-course-container hidden">
+            <div class="flex">
+              <div class="ic-clipboard w-[24px] h-[24px] mr-[13px]">
+              </div>
+              <div class="clr-slate dark:text-white course-text">
+              </div>
+            </div>
+            <div class="ic-cancel default w-[24px] h-[24px] cursor-pointer" data-action="click->enroll-modal#removeCourse" data-id=""></div>
+          </div>
+          <%@courses.each do |course|%>
+            <div class="py-[20px] flex jus-b-item-c course-container">
+              <div class="flex">
+                <div class="ic-clipboard w-[24px] h-[24px] mr-[13px]">
+                </div>
+                <div class="clr-slate dark:text-white">
+                  <%=course.title%>
+                </div>
+              </div>
+              <div class="ic-cancel w-[24px] h-[24px] cursor-pointer" data-action="click->enroll-modal#removeCourse" data-id="<%=course.id%>"></div>
+            </div>
+          <%end%>
+        </div>
+        <div class="w-full h-[403px] no-courses hidden jus-c-item-c flex-col">
+          <div class="rounded-full border-[2px] in-active-part w-fit mb-[15px]"><div class="w-[68px] h-[68px] rounded-full ic-clipboard"></div></div>
+          <div class="text-[17px] font-normal leading-[26px] dark:text-white">Search by Name or pick by List</div>
+        </div>
+      </div>
+      <div class="w-full h-[625px] px-[48px] right-menu-users hidden">
+        <div class="text-[25px] leading-[38px] font-medium mb-[14px] dark:text-white">Select Users</div>
+        <div class="h-fit relative search-container flex mb-[20px]">
+          <%= search_form_for @user_query, url: users_path, class: 'h-full w-[calc(100%-140px)]', data:{turbo_stream: true}, id: 'enroll-filter-user-search-form' do |f| %>
+            <%= f.search_field :name_cont, class: 'mr-[5px] search-inp w-full z-[3] relative bg-[rgba(0,0,0,0.05)] dark:bg-[rgba(0,0,0,0)] dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white h-[38px] bor-slate outline-none focus:outline-slate-500 rounded-lg', data:{ action: 'focus->manage-user#searchHide blur->manage-user#searchHide input->enroll-modal#submitFilterUserForm'} %>
+            <%= f.hidden_field :from, value: 'enroll'%>
+            <span class="absolute z-[2] text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+            <%= f.submit '', class: 'hidden', class: 'flt-submit'%>
+          <%end%>
+          <button class="rounded-lg w-[140px] bg-[rgba(0,0,0,0.05)] jus-c-item-c h-[38px]" data-action="enroll-modal#showFilters"><div class="ic-filter w-[30px] h-[30px]"></div><span class="dark:text-white text-[12px] leading-[18px] font-normal pr-[7px]">Advance Search</span></button>
+        </div>
+        <div class="filter-container hidden mb-[20px] h-[62px] jus-b-item-c">
+          <div class="flex action-container filters-container">
+            <div class="text-[17px] leading-[26px] jus-c-item-c dark:text-white">Filter By: </div>
+            <div class="relative">
+              <button class="text-[17px] leading-[26px] px-[10px] jus-c-item-c w-fit ml-[14px] rounded-lg border-black dark:border-white dark:text-white relative" data-action="effects#ApplyfixedPositionBottomCenter manage-user#optionsShow">Job Title
+                <div class="ml-[8px] ic-drop-down-b w-[30px] h-[30px] inline-block"></div>
+              </button>
+              <div class="w-[425px] h-fit max-h-[437px] search-container fixed flex-col jus-s-item-c rounded-lg box-shadow-md top-[40px] bg-white dark:bg-light-dark dark:text-white fixed-menu action-menu hidden">
+                <input type='text' class="mt-[5px] search-inp w-[calc(100%-8px)] focus:outline-none z-[3] relative bg-[rgba(0,0,0,0.05)] border-[rgba(0,0,0,0.05)] dark:bg-[rgba(0,0,0,0)] dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white h-[32px] bor-slate outline-none focus:outline-slate-500 rounded-lg enroll-search" data-action="focus->manage-user#searchHide blur->manage-user#searchHide">
+                <span class="absolute z-[2] text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div></span>
+                <div class="groups-container w-full pt-[15px] h-fit max-h-[347px] overflow-y-scroll">
+                  <div class="w-full jus-c-item-s">
+                    <div class="jus-s-item-c w-[calc(100%-8px)] py-[6px] px-[13px] rounded-lg hover:bg-[rgba(0,0,0,0.05)] mb-[10px]">
+                      <input type="checkbox" id="check_all" class="hidden emp-check" name="course_all" value="val" data-action="change->manage-user#check" autocomplete="off" data-id="" >
+                      <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+                      <span>Group1</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="border-t-[1px] bor-slate w-[calc(100%-10px)] mb-[10px]"></div>
+                <div class="w-full h-[47px] jus-b-item-c p-[10px] mb-[10px]">
+                  <span class="clr-blue">clear</span>
+                  <button class="w-[100px] px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue flex disabled:hover:bg-slate-400">
+                    Apply
+                  </button>
+                </div>
+              </div>
+              <span class="border-[1px] h-3 w-3 absolute top-[-4.5px] right-[-4.5px] hidden filter-badge">
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+              </span>
+            </div>
+            <div class="text-[17px] leading-[26px] border-l-[2px] bor-slate ml-[14px]"></div>
+            <div class="relative filter-container">
+              <button class="text-[17px] leading-[26px] filter-btn px-[10px] jus-c-item-c w-fit ml-[14px] rounded-lg border-white border-[1px] dark:border-white relative dark:text-white" data-action="effects#ApplyfixedPositionBottomCenter manage-user#optionsShow">Group
+                <div class="ml-[8px] ic-drop-down-b w-[30px] h-[30px] inline-block"></div>
+              </button>
+              <div class="w-[425px] h-fit max-h-[437px] search-container fixed flex-col jus-s-item-c rounded-lg box-shadow-md top-[40px] bg-white dark:bg-light-dark dark:text-white fixed-menu action-menu hidden">
+                <input type='text' class="mt-[5px] search-inp w-[calc(100%-8px)] focus:outline-none z-[3] relative bg-[rgba(0,0,0,0.05)] border-[rgba(0,0,0,0.05)] dark:bg-[rgba(0,0,0,0)] dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white h-[32px] bor-slate outline-none focus:outline-slate-500 rounded-lg enroll-search" data-action="focus->manage-user#searchHide blur->manage-user#searchHide">
+                <span class="absolute z-[2] text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div></span>
+                <%= form_for :group_filter, url: users_path, method: :get, data: {turbo_stream: true}, class: "w-fcol jus-c-item-c " do |f|%>
+                  <%= f.hidden_field :sort, value: 'asc'%>
+                  <%= f.hidden_field :user_ids, value: '', id: 'bulk-user-filter-ids', autocomplete: 'off'%>
+                  <div class="groups-container w-full pt-[15px] h-fit max-h-[347px] overflow-y-scroll">
+                    <%@groups.each do |group|%>
+                      <div class="w-full jus-c-item-s">
+                        <div class="jus-s-item-c w-[calc(100%-8px)] py-[6px] px-[13px] rounded-lg hover:bg-[rgba(0,0,0,0.05)] mb-[10px]">
+                          <input class='hidden emp-check' type="checkbox" value="<%=group.id%>" name="query[groups_id_in][]" form="enroll-filter-user-search-form" id="query_groups_id_in_<%=group.id%>" autocomplete= "off" data-action="change->manage-user#check change->enroll-modal#filterBadge">
+                          <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+                          <span><%=group.title%></span>
+                        </div>
+                      </div>
+                    <%end%>
+                  </div>
+                  <div class="border-t-[1px] bor-slate w-[calc(100%-10px)] mb-[10px]"></div>
+                  <div class="w-full h-[47px] jus-b-item-c p-[10px] mb-[10px]">
+                    <span class="cursor-pointer clr-blue" data-action="click->effects#clearAll" data-container="search-container">Clear All</span>
+                    <button type="button" class='apply-filter w-[100px] px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue flex disabled:hover:bg-slate-400' data-action="click->enroll-modal#submitFilterUserForm">Apply</button>
+                  </div>
+                <%end%>
+              </div>
+              <span class="border-black h-3 w-3 absolute top-[-4.5px] right-[-4.5px] hidden filter-badge">
+                  <span class="relative block rounded-full h-3 w-3 bg-sky-500"></span>
+              </span>
+            </div>
+          </div>
+          <div>
+            <button class="rounded-lg w-[160px] bg-[rgba(0,0,0,0.05)] back-to-search jus-c-item-c h-[38px]" data-action="enroll-modal#showFilters"><div class="ic-drop-down-b rotate-90 w-[30px] h-[30px]"></div><span class="dark:text-white text-[15px] leading-[22.5px] font-normal pr-[7px]">Back to search</span></button>
+            <button class="rounded-lg fit px-[10px] clear-filter hidden bg-[rgba(0,0,0,0.05)] jus-c-item-c h-[38px]" data-action="enroll-modal#clearFilters enroll-modal#submitFilterUserForm"><div class="ic-delete-b w-[20px] h-[20px] bg-[length:19px]"></div><span class="dark:text-white text-[15px] leading-[22.5px] font-normal pr-[7px]">Clear Filter</span></button>
+          </div>
+        </div>
+        <div class="overflow-y-scroll w-full h-[400px] px-[5px] mb-[50px] users-container">
+          <table class="w-full" id="enroll-users-table">
+             <colgroup>
+              <col class="min-w-[282px] w-fit">
+              <col class="min-w-[100px] w-fit">
+              <col class="min-w-[38px]">
+            </colgroup>
+            <tbody id='filter-users-body' class="filter-users-body">
+                <tr class="border-b-[1px] border-gray-200">
+                  <td class="dark:text-white font-medium text-[17px] leading-[26px]">
+                    User Selected: <span class="user-count" data-enroll-modal-target="userValue">0</span>
+                  </td>
+                  <td class="font-normal text-[17px] leading-[26px] dark:text-white">
+                    Job Title
+                  </td>
+                  <td class="font-normal text-[17px] leading-[26px] clr-blue">
+                    <span class="cursor-pointer" data-action="click->effects#clearAll" data-container="filter-users-body">Clear All</span>
+                  </td>
+                </tr>
+                <tbody id="users-filter-body">
+                  <%@users.each do |user|%>
+                    <tr class="border-b-[1px] border-gray-200">
+                      <td class="clr-slate text-[14px] leading-[21px]">
+                        <div>
+                          <div class="text-black dark:text-white font-normal"><%=user.name%></div>
+                          <div class="dark:text-slate-300"><%=user.email%></div>
+                        </div>
+                      </td>
+                      <td class="text-[14px] leading-[21px] dark:text-white">
+                        SQA
+                      </td>
+                      <td>
+                        <input type="checkbox" id="check_all" class="hidden emp-check" name="user_all" value="val" data-action="change->effects#bulkIds change->enroll-modal#changeUserSelectedValue" autocomplete="off" data-id="<%=user.id%>" data-bulkId="bulk-user-ids" data-clone="bulk-user-filter-ids" data-clonebulk="true">
+                        <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+                      </td>
+                    </tr>
+                  <%end%>
+                </tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="w-full h-[625px] px-[48px] right-menu-enrollment hidden">
+        <div class="text-[25px] leading-[38px] font-medium mb-[14px] dark:text-white">Select Enrollment Date</div>
+        <div class="flex relative w-fit calendar-container"><span class="dark:text-white mr-[10px] h-[38px] jus-c-item-c">Start Date:&nbsp;&nbsp;</span>
+          <input type="text" name="start_date" form="enroll-modal-form"  class="date-time-picker relative z-[2] bg-[rgba(0,0,0,0)] max-w-[300px] w-full h-[38px] border-[1px] border-black rounded-lg dark:bg-[rgba(0,0,0,0)] dark:border-white clr-slate dark:text-white">
+          <div class="w-[20px] h-[20px] ic-calendar-d absolute right-[10px] top-[9px] z-[3]" data-action="click->effects#ApplyfixedPositionBottom click->manage-user#optionsShow"></div>
+          <div class="w-[258px] h-fit fixed z-[5] bg-white top-[40px] mx-[auto] box-shadow-sm rounded-lg p-[10px] fixed-menu hidden action-menu" data-effects-target="calendar"></div>
+        </div>
+        <div class="overflow-y-scroll w-full h-[450px] px-[5px] mb-[50px]">
+          <table class="w-full" id="enroll-courses-table">
+             <colgroup>
+              <col class="min-w-[282px] w-fit">
+              <col class="min-w-[100px] w-fit">
+            </colgroup>
+            <tbody class="enroll-body">
+                <tr class="border-b-[1px] border-gray-200">
+                  <td class="dark:text-white font-medium text-[17px] leading-[26px]">
+                    Course Name
+                  </td>
+                  <td class="font-normal text-[17px] leading-[26px] dark:text-white">
+                    Due Date
+                  </td>
+                </tr>
+                <tbody id="enroll-course-body">
+                      <tr class="hidden default-enroll-row">
+                        <td class="course-title">default</td>
+                        <td>
+                          <button class="flex w-fit jus-s-item-c rounded-lg px-[10px]" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenter">
+                            <span class="current-due-selection">Unlimitted</span>
+                            <div class="ic-drop-down-b w-[20px] h-[20px] ml-[10px]"></div>
+                          </button>
+                          <div class="z-[10] fixed-menu hidden fixed action-menu bg-white dark:bg-light-dark w-[552px] h-[338px] rounded-lg box-shadow-sm">
+                            <div class="w-full h-full flex due-container">
+                              <div class="max-w-[50%] w-full h-full due-right-container">
+                                <div class="by-date hidden due-inp">
+                                  <input type="text" name="due_date"  class="hidden">
+                                  <div class="w-[258px] h-full bg-white p-[10px]" data-effects-target="calendar"></div>
+                                </div>
+                                <div class="for-period due-inp px-[36px] pt-[38px] hidden">
+                                  Time to Complete Course
+                                  <div class="jus-b-item-c pt-[34px]">
+                                    <input type="number" class="px-[7px] border-[1px] border-black rounded-lg w-[70px] h-[30px] mr-[10px]" name="duration">
+                                    <input type="checkbox" class="hidden" name="days">
+                                    <button class="border-[1px] px-[7px] border-black rounded-lg w-[110px] h-[30px] jus-b-item-c" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenter"><Span class="duration">Days</span> <div class="ic-drop-down-b w-[20px] h-[20px]"></div></button>
+                                    <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu" >
+                                      <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]" data-action="click->enroll-modal#changeDuration">Days</div>
+                                      <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]" data-action="click->enroll-modal#changeDuration">Months</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="no-due due-inp px-[36px] pt-[38px]">
+                                  The course has no due date
+                                  <input type="checkbox" name="no_due" class="hidden" checked>
+                                </div>
+                              </div>
+                              <div class="max-w-[50%] w-flex flex-col h-full py-[20px] px-[10px]">
+                                <div>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="course">User course settings</button>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="date">By date</button>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="period">For a period</button>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="none">No due date</button>
+                                  <div class="jus-s-item-s mb-[8px]">
+                                    <div class="pt-[4px]">
+                                      <input class='hidden emp-check' type="checkbox" form="enroll-modal-form" name="restrict" id="restrict" autocomplete= "off">
+                                      <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+                                    </div>
+                                    <div>
+                                      <span>Restrict access after due date</span>
+                                    </div>
+                                  </div>
+                                  <div class="flex items-center mb-[8px]">
+                                      <input class='hidden emp-check' type="checkbox" name="restrict" id="restrict" autocomplete= "off">
+                                      <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+                                      <span>Apply to All</span>
+                                  </div>
+                                </div>
+                                <div class="w-full flex mt-auto">
+                                  <button class="w-[130px] h-[26px] btn-blue ml-auto rounded-lg">
+                                    Apply
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                   <%@courses.each do |course|%>
+                      <tr class="enroll-row enroll-course-row-<%=course.id%>">
+                        <td><%=course.title%></td>
+                        <td>
+                          <button class="flex w-fit jus-s-item-c rounded-lg px-[10px]" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenter">
+                            <span class="current-due-selection">Unlimitted</span>
+                            <div class="ic-drop-down-b w-[20px] h-[20px] ml-[10px]"></div>
+                          </button>
+                          <div class="z-[10] fixed-menu hidden fixed action-menu bg-white dark:bg-light-dark w-[552px] h-[338px] rounded-lg box-shadow-sm">
+                            <div class="w-full h-full flex due-container">
+                              <div class="max-w-[50%] w-full h-full due-right-container">
+                                <div class="by-date hidden due-inp">
+                                  <input type="text" name="due_date"  class="hidden">
+                                  <div class="w-[258px] h-full bg-white p-[10px]" data-effects-target="calendar"></div>
+                                </div>
+                                <div class="for-period due-inp px-[36px] pt-[38px] hidden">
+                                  Time to Complete Course
+                                  <div class="jus-b-item-c pt-[34px]">
+                                    <input type="number" class="px-[7px] border-[1px] border-black rounded-lg w-[70px] h-[30px] mr-[10px]" name="duration">
+                                    <input type="checkbox" class="hidden" name="days">
+                                    <button class="border-[1px] px-[7px] border-black rounded-lg w-[110px] h-[30px] jus-b-item-c" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenter"><Span class="duration">Days</span> <div class="ic-drop-down-b w-[20px] h-[20px]"></div></button>
+                                    <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu" id="action-menu-<%=course.id%>">
+                                      <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]" data-action="click->enroll-modal#changeDuration">Days</div>
+                                      <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]" data-action="click->enroll-modal#changeDuration">Months</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="no-due due-inp px-[36px] pt-[38px]">
+                                  The course has no due date
+                                  <input type="checkbox" name="no_due" class="hidden" checked>
+                                </div>
+                              </div>
+                              <div class="max-w-[50%] w-flex flex-col h-full py-[20px] px-[10px]">
+                                <div>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="course">User course settings</button>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="date" disabled>By date</button>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="period" disabled>For a period</button>
+                                  <button class="w-full h-[32px] px-[10px] rounded-lg bg-slate-200 mb-[8px] hover:bg-slate-400" data-action="enroll-modal#dueDate" data-container="none" disabled>No due date</button>
+                                  <div class="jus-s-item-s mb-[8px]">
+                                    <div class="pt-[4px]">
+                                      <input class='hidden emp-check' type="checkbox" form="enroll-modal-form" name="restrict" id="restrict" autocomplete= "off">
+                                      <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+                                    </div>
+                                    <div>
+                                      <span>Restrict access after due date</span>
+                                    </div>
+                                  </div>
+                                  <div class="flex items-center mb-[8px]">
+                                      <input class='hidden emp-check apply-to-all' type="checkbox" name="restrict" id="restrict" autocomplete= "off">
+                                      <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+                                      <span>Apply to All</span>
+                                  </div>
+                                </div>
+                                <div class="w-full flex mt-auto">
+                                  <button class="w-[130px] h-[26px] btn-blue ml-auto rounded-lg" data-action="enroll-modal#apply">
+                                    Apply
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                   <%end%>
+                </tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="w-full jus-e-item-c pr-[48px] button-containers">
+          <button class="w-[100px] px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue disabled:hover:bg-slate-400 mr-[20px] hidden back-btn" data-action="enroll-modal#previousPart" data-back="none" data-enroll-modal-target="previous">
+            <div class="w-[24px] h-[24px] ic-drop-down-w mr-[10px] rotate-90"></div>
+            Back
+          </button>
+          <button class="w-[100px] px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue flex disabled:hover:bg-slate-400 next-btn" data-action="enroll-modal#nextPart" data-next="users" data-enroll-modal-target="next" <%=@courses.count != 0 ? '' : 'disabled'%>>
+            Next
+            <div class="w-[24px] h-[24px] ic-drop-down-w ml-[10px] -rotate-90"></div>
+          </button>
+          <button class="w-[100px] px-[13px] h-[42px] rounded-lg jus-c-item-c text-white btn-blue disabled:hover:bg-slate-400 enroll-btn hidden" data-action="enroll-modal#submitForm" data-form-name="enroll-modal-form"  disabled>
+            Enroll
+            <div class="w-[24px] h-[24px] ic-drop-down-w ml-[10px] -rotate-90"></div>
+          </button>
+        </div>
+    </div>
+  </div>
+</div>

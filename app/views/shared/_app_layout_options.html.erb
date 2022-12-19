@@ -1,0 +1,69 @@
+<%btn_class='max-w-[196px] transition-all group '+ (active == option[:icon] ? 'active bg-blue text-white' : 'btn-white dark:btn-black') + ' w-fcol min-h-[49px] overflow-hidden ' + (option[:icon]=='ic-user' || option[:icon]=='ic-calendar' ? 'hover:h-[177px] h-[49px] ' : 'h-[49px] ') + (option[:icon]=='ic-logout' ? 'mt-auto mb-[43px]' : 'mb-[25px]') + ' rounded-lg icon-container'%>
+<%path = option[:icon] == 'ic-logout' ? destroy_user_session_path : (option[:icon] == 'ic-gear' ? preferences_path : '#')%>
+<%method = option[:icon] == 'ic-logout' ? :delete : :get%>
+
+<%if option[:icon] != 'ic-user' && option[:icon] != 'ic-calendar' && option[:icon]!='ic-logout'%>
+  <%= link_to path, data: { "turbo-method": method }, class: btn_class do %>
+    <div class="w-flex min-h-[49px]">
+      <%if active == option[:icon]%>
+        <div class="h-[50px] border-[2px] border-blue-700 absolute left-0 rounded-r-lg"></div>
+      <%end%>
+      <div class="h-full w-[54px] jus-c-item-c">
+        <div class="<%= option[:icon]%> h-[30px] w-[30px]"></div>
+      </div>
+      <div class="jus-s-item-c">
+        <%= option[:name]%>
+      </div>
+    </div>
+  <%end%>
+<%elsif option[:icon] == 'ic-logout' %>
+  <%= button_to path, method: :delete , form:{class: btn_class, data: { turbo: false }} do %>
+    <div class="w-flex min-h-[49px] items-center">
+      <%if active == option[:icon]%>
+        <div class="h-[50px] border-[2px] border-blue-700 absolute left-0 rounded-r-lg"></div>
+      <%end%>
+      <div class="h-full w-[54px] jus-c-item-c">
+        <div class="<%= option[:icon]%> h-[30px] w-[30px]"></div>
+      </div>
+      <div class="jus-s-item-c">
+        <%= option[:name]%>
+      </div>
+    </div>
+  <%end%>
+<%else%>
+  <div class= "<%=btn_class%> cursor-pointer" data-action="<%= active != option[:icon] ? 'mouseover->effects#icOver mouseleave->effects#icLeave' : '' %>" data-postfixtoapply="w" data-postfixtoremove = "g" data-classname = "ic-drop-down" >
+    <div class="w-flex min-h-[49px]">
+      <%if active == option[:icon]%>
+        <div class="h-[50px] border-[2px] border-blue-700 absolute left-0 rounded-r-lg"></div>
+      <%end%>
+      <div class="h-full w-[54px] jus-c-item-c">
+        <div class="<%= option[:icon]%> h-[30px] w-[30px]"></div>
+      </div>
+      <div class="jus-s-item-c">
+        <%= option[:name]%>
+      </div>
+      <%if option[:icon]=='ic-user' || option[:icon]=='ic-calendar'%>
+        <div class="w-[22px] h-[22px] self-center ml-auto mr-[10px] <%=active == option[:icon] ? 'ic-drop-down-w' : 'ic-drop-down-g'%> group-hover:rotate-180" data-effects-target="icon"></div>
+      <%end%>
+    </div>
+    <%if option[:icon] == 'ic-user'%>
+      <div class="w-fcol h-fit items-center mb-[12px]">
+        <%dropdown_options.each do |menu_options|%>
+          <%= link_to menu_options[:path], class: "w-[188px] #{sub_active == menu_options[:name] ? 'bg-white' : 'hover:bg-white'} rounded-md relative mb-[5px]" do%>
+            <div class="h-[calc(100%-2px)] border-[2px] border-blue-700 rounded-lg absolute left-[4px] top-[1px] <%=sub_active == menu_options[:name] ? 'flex' : 'hidden'%>"></div>
+            <div class="<%=sub_active == menu_options[:name] ? 'text-blue-700' : (active == option[:icon] ? 'text-white hover:text-blue-700' : 'text-white hover:clr-slate')%> text-center w-[186px]"><%=menu_options[:name]%></div>
+          <%end%>
+        <%end%>
+      </div>
+    <%else%>
+      <div class="w-fcol h-fit items-center mb-[12px]">
+        <%[{name:'Content', path: courses_path}, {name: 'Manage Sync', path: syncs_path}, {name: 'Evaluations', path: evaluations_path}, {name:'N/A', path: '#'}].each do |menu_options|%>
+          <%= link_to menu_options[:path], class: "w-[188px] #{sub_active == menu_options[:name] ? 'bg-white' : 'hover:bg-white'} rounded-md relative mb-[5px]" do%>
+            <div class="h-[calc(100%-2px)] border-[2px] border-blue-700 rounded-lg absolute left-[4px] top-[1px] <%=sub_active == menu_options[:name] ? 'flex' : 'hidden'%>"></div>
+            <div class="<%=sub_active == menu_options[:name] ? 'text-blue-700' : (active == option[:icon] ? 'text-white hover:text-blue-700' : 'text-white hover:clr-slate')%> text-center w-[186px]"><%=menu_options[:name]%></div>
+          <%end%>
+        <%end%>
+      </div>
+    <%end%>
+  </div>
+<%end%>

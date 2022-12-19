@@ -1,0 +1,85 @@
+<div class="w-[600px] h-[600px] absolute top-[calc(50%-300px)] left-[calc(50%-300px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark" data-controller="sync">
+  <div class="w-full h-[88px] px-[26px] bg-gradient-to-b to-[#3649F9] from-[#171499] jus-b-item-c rounded-t-lg">
+    <div class="text-[25px] leading-[37.5px] font-bold text-white">Sync</div>
+    <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+  </div>
+  <div class="w-full h-full px-[20px] py-[20px]">
+    <%= form_for @sync, class: 'h-full w-full', data:{turbo_stream: true} do |f| %>
+      <%= f.fields_for :event do |e| %>
+        <div class="field relative search-container mb-2">
+          <%= e.text_field :title, class: 'h-[38px] dark:bg-dark dark:text-white border-[1px] border-blue-700 rounded-lg w-full', data: { action: 'focus->manage-user#searchHide blur->manage-user#searchHide' } %>
+          <span class="absolute text-slate-400 dark:text-slate-400 top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus">Add Title</span>
+        </div>
+        <%= e.text_field :start_date, class: 'hidden', data: { sync_target: 'startDate' } %>
+        <%= e.text_field :end_date, class: 'hidden', data: { sync_target: 'endDate' } %>
+      <% end %>
+      <div class="flex mb-[10px] items-end gap-1 border-[1px] border-blue-700 rounded-lg">
+        <div class="ic-clock w-[40px] h-[40px]"></div>
+        <div class="field relative date-only mr-[10px]">
+          <input type="text" data-sync-target="date" placeholder="Date" class="date-time-picker outline-none no-outline relative z-[2] cursor-pointer bg-[rgba(0,0,0,0)] h-[40px] w-[200px] dark:bg-[rgba(0,0,0,0)] clr-slate dark:text-white" data-action="click->effects#ApplyfixedPositionBottom click->manage-user#optionsShow">
+          <div class="w-[258px] h-fit fixed z-[5] bg-white top-[40px] mx-[auto] box-shadow-sm rounded-lg p-[10px] fixed-menu hidden action-menu" data-effects-target="calendar"></div>
+        </div>
+        <div class="field relative time-only">
+          <input type="text" data-sync-target="timeFrom" placeholder="From" class="date-time-picker outline-none no-outline cursor-pointer relative z-[2] bg-[rgba(0,0,0,0)] h-[40px] w-[100px] dark:bg-[rgba(0,0,0,0)] clr-slate dark:text-white" data-action="click->effects#ApplyfixedPositionBottom click->manage-user#optionsShow">
+          <div class="w-[258px] h-fit fixed z-[5] bg-white top-[40px] mx-[auto] box-shadow-sm rounded-lg p-[10px] fixed-menu hidden action-menu" data-effects-target="calendar"></div>
+        </div>
+        <span class="h-full pb-[6px]">-</span>
+        <div class="field relative time-only">
+          <input type="text" data-sync-target="timeTo" placeholder="To" class="date-time-picker outline-none no-outline cursor-pointer relative z-[2] bg-[rgba(0,0,0,0)] h-[40px] w-[100px] dark:bg-[rgba(0,0,0,0)] clr-slate dark:text-white" data-action="click->effects#ApplyfixedPositionBottom click->manage-user#optionsShow">
+          <div class="w-[258px] h-fit fixed z-[5] bg-white top-[40px] mx-[auto] box-shadow-sm rounded-lg p-[10px] fixed-menu hidden action-menu" data-effects-target="calendar"></div>
+        </div>
+      </div>
+      <%= f.fields_for :event do |g| %>
+        <div class="flex mb-[10px]">
+          <span class="mr-[10px] jus-c-item-c dark:text-white">Repeat:</span>
+          <div class="jus-c-item-c">
+            <%= g.number_field :recur_every, value: '1', class:'mr-[10px] w-[60px] dark:bg-dark dark:text-white outline-none no-outline' %>
+          </div>
+          <div class="w-[100px] jus-c-item-c">
+          <%= g.select :recur_by, [[:single, :SINGLE], [:day, :DAILY], [:week, :WEEKLY]],{}, { class: "baba", "data-effects-target" => 'select' } %>
+          </div>
+          <div class="ml-[20px] py-[5px] rounded-full cursor-pointer transition-all close w-[40px] overflow-hidden box-shadow-sm" data-action="click->sync#pickColor">
+            <%= g.hidden_field :color_id, value: @colors.event.keys[0] , data: {sync_target: 'color'} %>
+            <div class="flex w-fit">
+              <% @colors.event.each do |bg| %>
+                <div id="<%=bg[0]%>" class="w-[30px] h-[30px] mx-[5px] rounded-full" style="background-color:<%=bg[1].background%>;" data-action="click->sync#changeColor"></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="w-fcol mb-[10px] rounded-lg border-[1px] border-blue-700">
+        <div class="flex">
+          <div class="ic-guest w-[40px] h-[40px]"></div>
+          <div class="relative search-container w-full pr-[10px] my-[5px] h-[30px]">
+            <input type="search" name = "query[name_cont]" form="user-search-form" class = "dark:bg-dark no-outline outline-none dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white w-full h-full bor-slate focus:outline-slate-500 rounded-lg bg-[#F4F6FF]" data-action= 'focus->manage-user#searchHide blur->manage-user#searchHide input->sync#submitParentForm' autocomplete= 'off' >
+            <span class="absolute text-[#B5B7C0] top-[3px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+          </div>
+        </div>
+        <%= text_field_tag :trainees, '', class: 'hidden' , data: { sync_target: 'trainees'} %>
+        <div class="h-[100px] w-full overflow-y-scroll" id="found-user-body"></div>
+      </div>
+      <%= f.hidden_field :supervisor_id, data: { sync_target: 'supervisor' } %>
+      <%= f.fields_for :event do |e| %>
+        <div class="field relative search-container mb-2">
+          <%= e.text_field :location, class: 'h-[38px] dark:bg-dark dark:text-white border-[1px] border-blue-700 rounded-lg w-full', data: { action: 'focus->manage-user#searchHide blur->manage-user#searchHide' } %>
+          <span class="absolute text-black top-[8px] left-0 px-[11px] flex cursor-text dark:text-white" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-location cursor-text"></div>Add Location</span>
+        </div>
+        <div class="field relative search-container mb-2">
+          <%= e.text_field :description, class: 'h-[38px] border-[1px] dark:text-white dark:bg-dark border-blue-700 rounded-lg w-full', data: { action: 'focus->manage-user#searchHide blur->manage-user#searchHide' } %>
+          <span class="absolute text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus">Add Description</span>
+        </div>
+      <% end %>
+      <%= f.submit '', class:"flt-submit hidden", data: { sync_target: 'submit' } %>
+    <% end %>
+  </div>
+  <div class="h-fit w-full pr-[20px] jus-e-item-c mb-[20px]">
+    <button class="w-fit px-[13px] h-[42px] rounded-lg clr-blue jus-c-item-c cursor-pointer sel-blue" data-action="sync#submitForm">
+      Create
+    </button>
+  </div>
+</div>
+<%= search_form_for @user_query, class: 'h-full hidden', data:{turbo_stream: true}, id: 'user-search-form' do |f| %>
+  <%= hidden_field_tag :from, :new_sync %>
+  <%= f.submit '', class: 'hidden', class: 'flt-submit'%>
+<% end %>

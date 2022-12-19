@@ -1,0 +1,8 @@
+<%= turbo_stream.update "project-table-container" do %>
+  <%= render partial: 'shared/records_table', locals:{records: @courses, name: 'title', clas: 'course', rec_del_path: method(:course_path), rec_edit_path: method(:edit_course_path), rec_bulk_path: method(:edit_course_path)} %>
+<% end %>
+
+<%= turbo_stream.update "filter-pagination" do %>
+  <div class="font-medium text-[14px] leading-[21px] text-[#B5B7C0]"><%= page_entries_info @courses %></div>
+  <div><%= will_paginate @courses, inner_window: 2 , outer_window: 0, renderer: @paginate_turbo_stream %></div>
+<% end %>

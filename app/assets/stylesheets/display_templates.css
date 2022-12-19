@@ -1,0 +1,452 @@
+@layer components {
+    .box-shadow-sm {
+        box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    .box-shadow-md {
+        box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    .box-shadow-lg {
+        box-shadow: 0 0px 15px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    span.ripple {
+    position: fixed;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+    animation: ripple 1200ms;
+    position: absolute;
+    opacity: 0;
+    background: rgba(0,0,0,0.3)
+    }
+
+    @keyframes ripple {
+        from {
+            opacity: 1;
+            transform: scale(0);
+            background: rgba(0,0,0,0.3)
+        }
+
+        to {
+            opacity: 0;
+            transform: scale(10);
+            background: rgba(0,0,0,0)
+        }
+    }
+
+    .jus-c-item-c, .jus-c-item-s, .jus-c-item-e, .jus-s-item-c, .jus-e-item-c, .jus-s-item-s, .jus-s-item-e, .jus-e-item-s, .jus-e-item-e, .jus-b-item-c {
+        @apply flex ;
+    }
+
+    .jus-s-item-c, .jus-e-item-c, .jus-c-item-c, .jus-b-item-c{
+        @apply items-center;
+    }
+
+    .jus-c-item-c, .jus-c-item-s, .jus-c-item-e {
+        @apply justify-center;
+    }
+
+    .jus-c-item-e, .jus-s-item-e, .jus-e-item-e {
+        @apply items-end;
+    }
+
+    .jus-c-item-s, .jus-s-item-s, .jus-e-item-s {
+        @apply items-start;
+    }
+
+    .jus-s-item-c, .jus-s-item-e, .jus-s-item-s {
+        @apply justify-start;
+    }
+
+    .jus-e-item-c, .jus-e-item-e, .jus-e-item-s {
+        @apply justify-end;
+    }
+
+    .jus-b-item-c {
+        @apply justify-between
+    }
+
+    .ripple-effect {
+        @apply overflow-hidden relative;
+    }
+
+    .btn-success, .btn-danger, .btn-info, .btn-orange, .btn-amber, .btn-green, .btn-emerald, .btn-teal, .btn-primary, .btn-sky, .btn-blue, .btn-fuchsia, .btn-purple, .btn-violet, .btn-pink, .btn-rose, .btn-slate, .btn-secondary, .btn-neutral, .btn-black {
+        @apply text-white cursor-pointer;
+    }
+
+    .btn-success {
+        @apply hover:bg-lime-600 bg-lime-500
+    }
+
+    .btn-danger {
+        @apply hover:bg-red-600 bg-red-500
+    }
+
+    .btn-info {
+        @apply hover:bg-yellow-600 bg-yellow-500
+    }
+
+    .btn-orange {
+        @apply hover:bg-orange-600 bg-amber-500
+    }
+
+    .btn-amber {
+        @apply hover:bg-amber-600 bg-amber-500
+    }
+
+    .btn-green {
+        @apply hover:bg-green-600 bg-green-500
+    }
+
+    .btn-emerald {
+        @apply hover:bg-emerald-600 bg-emerald-500
+    }
+
+    .btn-white {
+        @apply bg-white hover:bg-slate-400 hover:text-white text-[#999999] cursor-pointer
+    }
+
+    .btn-black {
+        @apply hover:bg-slate-400 bg-black text-white cursor-pointer
+    }
+
+    .btn-teal {
+        @apply hover:bg-teal-600 bg-teal-500
+    }
+
+    .btn-primary {
+        @apply bg-[#0344BF] hover:bg-blue-700
+    }
+
+    .btn-sky {
+        @apply hover:bg-sky-600 bg-sky-500
+    }
+
+    .btn-blue {
+        @apply bg-blue-700 hover:bg-blue-500
+    }
+
+    .btn-fuchsia {
+        @apply hover:bg-fuchsia-600 bg-fuchsia-500
+    }
+
+    .btn-purple {
+        @apply hover:bg-purple-600 bg-purple-500
+    }
+
+    .btn-violet {
+        @apply hover:bg-violet-600 bg-violet-500
+    }
+
+    .btn-pink {
+        @apply hover:bg-pink-600 bg-pink-500
+    }
+
+    .btn-rose {
+        @apply hover:bg-rose-600 bg-rose-500
+    }
+
+    .btn-slate {
+        @apply hover:bg-slate-600 bg-slate-500
+    }
+
+    .btn-secondary {
+        @apply hover:bg-gray-600 bg-gray-500
+    }
+
+    .btn-neutral {
+        @apply hover:bg-neutral-600 bg-neutral-500
+    }
+
+    .btn-black {
+        @apply hover:bg-slate-600 bg-slate-900
+    }
+
+    .clr-success {
+        @apply text-lime-500
+    }
+
+    .clr-danger {
+        @apply text-red-500
+    }
+
+    .clr-info {
+        @apply text-yellow-500
+    }
+
+    .clr-orange {
+        @apply text-amber-500
+    }
+
+    .clr-amber {
+        @apply text-amber-500
+    }
+
+    .clr-green {
+        @apply text-green-500
+    }
+
+    .clr-emerald {
+        @apply text-emerald-500
+    }
+
+    .clr-teal {
+        @apply text-teal-500
+    }
+
+    .clr-primary {
+        @apply text-[#0344BF]
+    }
+
+    .clr-sky {
+        @apply text-sky-500
+    }
+
+    .clr-blue {
+        @apply text-blue-700
+    }
+
+    .clr-fuchsia {
+        @apply text-fuchsia-500
+    }
+
+    .clr-purple {
+        @apply text-purple-500
+    }
+
+    .clr-violet {
+        @apply text-violet-500
+    }
+
+    .clr-pink {
+        @apply text-pink-500
+    }
+
+    .clr-rose {
+        @apply text-rose-500
+    }
+
+    .clr-slate {
+        @apply text-slate-500
+    }
+
+    .clr-secondary {
+        @apply text-gray-500
+    }
+
+    .clr-neutral {
+        @apply text-neutral-500
+    }
+
+    .clr-black {
+        @apply text-slate-900
+    }
+
+    .bg-success {
+        @apply bg-lime-500
+    }
+
+    .bg-danger {
+        @apply bg-red-500
+    }
+
+    .bg-info {
+        @apply bg-yellow-500
+    }
+
+    .bg-orange {
+        @apply bg-amber-500
+    }
+
+    .bg-amber {
+        @apply bg-amber-500
+    }
+
+    .bg-green {
+        @apply bg-green-500
+    }
+
+    .bg-emerald {
+        @apply bg-emerald-500
+    }
+
+    .bg-teal {
+        @apply bg-teal-500
+    }
+
+    .bg-primary {
+        @apply bg-[#0344BF]
+    }
+
+    .bg-sky {
+        @apply bg-sky-500
+    }
+
+    .bg-blue {
+        @apply bg-blue-700
+    }
+
+    .bg-fuchsia {
+        @apply bg-fuchsia-500
+    }
+
+    .bg-purple {
+        @apply bg-purple-500
+    }
+
+    .bg-violet {
+        @apply bg-violet-500
+    }
+
+    .bg-pink {
+        @apply bg-pink-500
+    }
+
+    .bg-rose {
+        @apply bg-rose-500
+    }
+
+    .bg-slate {
+        @apply bg-slate-500
+    }
+
+    .bg-dark {
+        @apply bg-[rgb(17,24,39)]
+    }
+
+    .bg-light-dark {
+        @apply bg-[rgb(22,31,47)]
+    }
+
+    .bg-secondary {
+        @apply bg-gray-500
+    }
+
+    .bg-neutral {
+        @apply bg-neutral-500
+    }
+
+    .bor-success {
+        @apply border-lime-500
+    }
+
+    .bor-danger {
+        @apply border-red-500
+    }
+
+    .bor-info {
+        @apply border-yellow-500
+    }
+
+    .bor-orange {
+        @apply border-amber-500
+    }
+
+    .bor-amber {
+        @apply border-amber-500
+    }
+
+    .bor-green {
+        @apply border-green-500
+    }
+
+    .bor-emerald {
+        @apply border-emerald-500
+    }
+
+    .bor-teal {
+        @apply border-teal-500
+    }
+
+    .bor-primary {
+        @apply border-[#0344BF]
+    }
+
+    .bor-sky {
+        @apply border-sky-500
+    }
+
+    .bor-blue {
+        @apply border-blue-700
+    }
+
+    .bor-fuchsia {
+        @apply border-fuchsia-500
+    }
+
+    .bor-purple {
+        @apply border-purple-500
+    }
+
+    .bor-violet {
+        @apply border-violet-500
+    }
+
+    .bor-pink {
+        @apply border-pink-500
+    }
+
+    .bor-rose {
+        @apply border-rose-500
+    }
+
+    .bor-slate {
+        @apply border-slate-500
+    }
+
+    .bor-secondary {
+        @apply border-gray-500
+    }
+
+    .bor-neutral {
+        @apply border-neutral-500
+    }
+
+    .bor-black {
+        @apply border-black
+    }
+
+    .focus-field {
+        @apply relative p-5
+    }
+
+    .helper {
+        @apply w-full items-start text-justify
+    }
+
+    .light .sel-white-cl {
+        @apply bg-white hover:bg-blue hover:text-white
+    }
+
+    .dark .sel-white-cl {
+        @apply bg-dark hover:bg-blue hover:text-white border-white
+    }
+
+    .sel-white-op {
+        @apply bg-blue text-white
+    }
+
+    .dark .sel-white-op {
+        @apply bor-blue
+    }
+
+    .sel-blue {
+        @apply btn-blue hover:text-white
+    }
+
+    .sel-gray-cl, .sel-gray-op {
+        @apply bg-[#F4F6FF] text-[#B5B7C0]
+    }
+
+    .w-flex {
+        @apply flex w-full
+    }
+
+    .w-fcol {
+        @apply flex w-full flex-col
+    }
+}

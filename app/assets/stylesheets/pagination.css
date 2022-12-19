@@ -1,0 +1,33 @@
+@layer components {
+  .pagination {
+    @apply flex
+  }
+
+  .pagination .next_page, .pagination .previous_page, .pagination a, .pagination em {
+    @apply w-[26px] h-[24px] jus-c-item-c bg-[#F0F0F0] rounded-lg dark:bg-light-dark mr-[12px] dark:text-white
+  }
+
+  .pagination em.current {
+    @apply bg-blue text-white cursor-pointer font-medium text-[12px] leading-[12px] not-italic
+  }
+
+  .pagination .next_page {
+    @apply rotate-[-90deg] ic-drop-down-b bg-no-repeat bg-center
+  }
+
+  .pagination .previous_page {
+    @apply rotate-[90deg] ic-drop-down-b bg-no-repeat bg-center
+  }
+
+  .pagination span:hover, .pagination a:hover {
+    @apply box-shadow-sm
+  }
+
+  .pagination .gap:hover {
+    @apply shadow-none
+  }
+
+  .pagination .gap {
+    @apply mr-[12px] cursor-default
+  }
+}

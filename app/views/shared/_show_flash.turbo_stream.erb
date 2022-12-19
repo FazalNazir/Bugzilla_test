@@ -1,0 +1,5 @@
+<%= turbo_stream.append 'flash' do%>
+  <%= render partial: '/shared/flash'%>
+<%end%>
+
+<%flash.discard%>

@@ -1,0 +1,3 @@
+<%=turbo_stream.update 'enrollments-table' do%>
+  <%=render partial: 'shared/records_table', locals:{records: @enrollments, name: 'Name', clas: 'enrollment', rec_del_path: method(:enrollment_path), rec_edit_path: method(:edit_enrollment_path), rec_bulk_path: method(:edit_enrollment_path)}%>
+<%end%>

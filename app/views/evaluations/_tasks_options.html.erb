@@ -1,0 +1,5 @@
+<%= link_to tasks_path(course_id: course.id), data:{turbo_stream: true, action: 'click->manage-user#closeMenu'} do %>
+  <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]">
+    <div><%= course.title %></div>
+  </div>
+<% end %>

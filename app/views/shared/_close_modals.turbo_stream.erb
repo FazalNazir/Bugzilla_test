@@ -1,0 +1,21 @@
+<% modal ||= 'all' %>
+<% if modal=='edit-modal' || modal == 'all' %>
+  <%= turbo_stream.replace "edit-modal" do %>
+    <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 hidden z-[100]" id="edit-modal">
+    </div>
+  <% end %>
+<% end %>
+<% if modal=='del-modal' || modal == 'all' %>
+  <%= turbo_stream.replace 'modal' do%>
+    <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal z-[100] hidden" id="modal">
+      <%= render partial: 'shared/del_modal' %>
+    </div>
+  <% end %>
+<% end %>
+<% if modal=='update-modal' || modal == 'all' %>
+  <%= turbo_stream.replace 'update' do%>
+    <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 z-[100] update hidden" id="update">
+      <%= render partial: 'shared/update_modal' %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,31 @@
+<div class="w-fcol h-[102px] bg-white dark:bg-dark transition-all rounded-3xl mb-[33px]" id="record-head">
+  <%= form_for @course, url: course_path, method: :patch, html: {class: 'pt-[29px] pb-[29px] pr-[24px] pl-[25px] flex-col jus-c-item-s'} do |f|%>
+    <%=f.text_field :title, value: @course.title, autocomplete: 'off', class: 'px-0 font-semibold text-[22px] leading-[22px] dark:text-white dark:bg-[rgba(0,0,0,0)] jus-c-item-c gap-[12px] no-outline outline-none w-fit'%>
+    <div class="font-normal text-[14px] text-slate leading-[33px] dark:text-white jus-c-item-c gap-[12px]"><%=@course.class.name%></div>
+  <%end%>
+</div>
+<div class="w-fcol h-[calc(100vh-310px)] bg-white dark:bg-dark transition-all rounded-b-3xl mb-[33px]" data-controller="manage-user enroll-modal" id="course-sub-menu">
+  <div class="w-full bg-blue-700 h-[81px] jus-s-item-c gap-x-[18px] px-[18px]">
+    <div class="w-[130px] cursor-pointer h-[57px] bg-white text-black jus-c-item-c rounded-lg font-medium flex pl-[4px]">
+      <div class="h-[53px] border-[2px] rounded-lg border-blue-700"></div><span class="w-full h-full jus-c-item-c clr-blue font-medium">Outline</span>
+    </div>
+    <div class="h-[45px] border-[1px] border-white"></div>
+    <a class="h-fit" href="<%=enrollments_path(id: @course.id)%>" data-turbo-stream="true"><button class="w-[130px] cursor-pointer h-[57px] hover:bg-blue-400 jus-c-item-c font-medium text-white rounded-lg">Enrollment</button></a>
+  </div>
+  <div class="jus-b-item-c flex-col w-full max-h-[calc(100%-81px)] h-fit">
+    <div class="w-full p-[24px] h-fit overflow-y-scroll" id="section-container">
+      <%=render partial: 'shared/records_table', locals:{records: @sections, name: 'title', clas: 'section', rec_del_path: method(:section_path), rec_edit_path: method(:edit_section_path), rec_bulk_path: method(:edit_section_path)}%>
+    </div>
+    <div class="w-full justify-start" id="new-section">
+      <%= button_to new_section_path, params: {id: @course.id}, method: :get, data:{ turbo_stream: true},class:'ml-[20px] box-shadow-sm my-[10px] font-regular text-[15px] w-fit h-[33px] px-[5px] jus-c-item-c rounded-full self-start' do%>
+        <div class="ic-plus-b w-[30px] h-[30px]"></div><div class="clr-blue mr-[10px]">Add Section</div>
+      <%end%>
+    </div>
+  </div>
+  <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 hidden z-[100]" id="edit-modal">
+  </div>
+</div>
+<div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal hidden z-[100]" id="modal">
+  <%= render partial: 'shared/del_modal'%>
+</div>
+

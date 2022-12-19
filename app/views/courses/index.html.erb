@@ -1,0 +1,41 @@
+<div class="w-fcol h-[calc(100vh-175px)] bg-white dark:bg-dark transition-all rounded-3xl mb-[33px]" data-controller="manage-user" data-manage-user-checked-value="0">
+  <div class="pt-[29px] pb-[23px] pr-[24px] pl-[25px] jus-b-item-c">
+    <div class="font-semibold text-[22px] leading-[33px] dark:text-white jus-c-item-c gap-[12px]" id="sample-project">Content<div class="ic-drop-down w-[25px] h-[25px] bg-cover -rotate-90 hidden"></div></div>
+    <div id="create-course">
+    </div>
+  </div>
+  <div class="mb-[22px] pr-[28px] pl-[25px] jus-s-item-c h-[38px]">
+    <div id="search-field" class="h-full">
+    </div>
+    <div class="flex">
+      <div class="flex selection relative">
+        <a href="<%= new_category_path %>" data-turbo-stream= "true" ><button class="w-[30px] h-[42px] rounded-l-lg clr-blue jus-c-item-c cursor-pointer sel-blue ">
+          <div class="ic-plus w-[28px] h-full bg-no-repeat bg-center px-[18px]"></div>
+        </button></a>
+        <button class="w-[158px] h-[42px] rounded-r-lg clr-blue px-[5px] jus-b-item-c cursor-pointer sel-blue ml-[4px] text-[15px]" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenterPerfect" id="selected_category">
+          Select Project
+          <div class="ic-drop-down-w text-white h-full px-[18px]"></div>
+        </button>
+        <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu" id="category-menu" >
+          <%= render partial: 'category_menu_option', collection: @categories, as: :category %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden h-full" id="courses-table">
+    <div class="pl-[24px] pr-[25px] jus-c-item-c overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden h-full" id="project-table-container">
+      <div class="relative w-[530px] h-[350px]">
+        <%= image_tag 'follow.svg', class: 'absolute' %>
+        <%= image_tag 'select.svg', class: 'absolute top-[150px] left-[100px]' %>
+        <div class="text-[22px] font-medium absolute top-[303px] text-center w-[490px] right-0">Please select the project First</div>
+      </div>
+    </div>
+  </div>
+  <div class="h-[94px] w-full jus-b-item-c px-[25px] py-[32px] mt-auto" id="filter-pagination">
+  </div>
+  <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 hidden z-[100]" id="edit-modal">
+  </div>
+</div>
+<div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal hidden z-[100]" id="modal">
+  <%= render partial: 'shared/del_modal' %>
+</div>

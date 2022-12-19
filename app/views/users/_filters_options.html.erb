@@ -1,0 +1,7 @@
+<tr class="border-b-[1px] border-gray-200">
+  <td class="px-[5px] filter">
+    <input class="filter flt-check hidden" type="checkbox" value="<%= role.id %>" name="query[roles_id_in][]" form="filter-search-form" id="query_roles_id_in_<%= role.id %>" autocomplete= "off" data-action="change->manage-user#submitForm">
+    <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check" ></div>
+  </td>
+  <td class="pl-[7px] filter text-[14px]" ><%= role.stylize %><td>
+</tr>

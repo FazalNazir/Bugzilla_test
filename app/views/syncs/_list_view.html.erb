@@ -1,0 +1,19 @@
+<div class="mb-[22px] pr-[28px] pt-[20px] pl-[25px] jus-b-item-c h-[58px]">
+  <div class="h-full relative search-container">
+    <%= search_form_for @query, class: 'h-full', data:{turbo_stream: true}, id: 'filter-search-form' do |f| %>
+      <%= f.search_field :event_title_cont, class: 'max-w-[216px] dark:bg-dark dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white w-full h-full bor-slate outline-none focus:outline-slate-500 rounded-lg bg-[#F4F6FF]', data:{action: 'focus->manage-user#searchHide blur->manage-user#searchHide input->manage-user#submitForm'}, autocomplete: 'off' %>
+      <span class="absolute text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+      <%= f.submit '', class: 'hidden', class: 'flt-submit'%>
+      <%= hidden_field_tag :list, true %>
+    <% end %>
+  </div>
+  <div class="field relative date-only flex">
+    <input type="text" class="date-time-picker hidden relative z-[2] bg-[rgba(0,0,0,0)] w-full h-[40px] border-[1px] border-blue-700 rounded-lg dark:bg-[rgba(0,0,0,0)] dark:border-white clr-slate dark:text-white" name="date" autocomplete= "off" data-action="change->manage-user#submitForm" form='filter-search-form'>
+    <button type="button" class="ic-calendar-e w-[52px] h-[52px] box-shadow-sm dark:shadow-none dark:bg-light-dark rounded-full"data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottom"></button>
+    <div class="w-[258px] h-fit fixed z-[5] bg-white top-[40px] mx-[auto] box-shadow-sm rounded-lg p-[10px] fixed-menu hidden action-menu" data-effects-target="calendar"></div>
+  </div>
+</div>
+<div class="w-fcol h-[calc(100%-70px)] overflow-y-scroll" id="sync-list">
+  <%= render partial: 'sync_list_item', collection: @syncs, as: :sync %>
+</div>
+<%= show_pagination(@syncs, @paginate_turbo_stream) %>

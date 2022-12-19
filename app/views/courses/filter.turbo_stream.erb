@@ -1,0 +1,24 @@
+<%if @from.nil?%>
+  <%= turbo_stream.update "categories-courses" do %>
+    <% Category.all.each do |project| %>
+      <div class="w-full <%= @category_ids.include?(project.id) ? 'h-fit' : 'h-[24px]'%> overflow-hidden cursor-pointer">
+        <div class="flex mb-[10px]" data-action="click->enroll-modal#showCourses">
+          <div class="w-[24px] h-[24px] ic-drop-down-g mr-[10px] <%= @category_ids.include?(project.id) ? 'rotate-0' : '-rotate-90'%> transition_all"></div>
+          <div class="w-[24px] h-[24px] ic-folder-plus mr-[10px]"></div>
+          <span><%= project.title %></span>
+        </div>
+        <% project.courses.each do |course| %>
+          <div class="jus-s-item-c ml-[10px] mb-[10px]">
+            <input type="checkbox" id="check_all" class="hidden emp-check" name="course_all" value="val" data-action="change->manage-user#check" autocomplete="off" data-id="<%=course.id%>" data-project="<%=project.title%>" data-course="<%=course.title%>">
+            <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80 mr-[10px]" data-action="mousedown->effects#check"></div>
+            <div class="w-[24px] h-[24px] ic-page mr-[10px]"></div><span><%=course.title%></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update 'project-table-container' do %>
+    <%= render partial: 'shared/records_table', locals:{records: @courses, name: 'title', clas: 'course', rec_del_path: method(:course_path), rec_edit_path: method(:edit_course_path), rec_bulk_path: method(:edit_course_path)} %>
+  <% end %>
+<% end %>

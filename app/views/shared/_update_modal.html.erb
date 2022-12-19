@@ -1,0 +1,10 @@
+<div class="w-[692px] h-[344px] absolute top-[calc(50%-172px)] left-[calc(50%-346px)] bg-white rounded-lg jus-e-item-c flex-col box-shadow-md update-modal-container hidden dark:bg-light-dark" id="update-modal">
+  <div class="ic-delete w-[124px] h-[124px] absolute top-[-46px] bg-white z-[4] box-shadow-md bg-[length:48px] dark:bg-dark rounded-full"></div>
+  <div class="text-[28px] leading-[42px] font-semibold mb-[44px] dark:text-white">
+    Are you sure you want to reject this evaluation?
+  </div>
+  <div class="flex gap-[22px] mb-[80px]">
+    <button class="w-[160px] h-[58px] border-[1px] bor-blue rounded-lg clr-blue dark:border-white dark:hover:bor-blue dark:text-white dark:hover:bg-blue" data-controller="effects" data-action="click->effects#modal">No</button>
+    <%= link_to 'Yes', '#', class: 'w-[162px] h-[60px] bg-red-500 rounded-lg text-white jus-c-item-c hover:bg-red-300 modal-update', data: { "turbo-method": :patch, "turbo_stream": :true }  %>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden" id="courses-table">
+  <%= render layout: 'shared/records_table_shared', locals: {class_name: 'courses'} do %>
+    <colgroup>
+      <col class="w-[38px]">
+      <col class="min-w-[216px]">
+      <col class="min-w-[216px]">
+      <col class="min-w-[184px]">
+      <col class="min-w-[184px]">
+    </colgroup>
+    <tr class="h-[60px] table-head">
+      <th>
+        <%= render partial: 'shared/custom_checkbox_all' %>
+      </th>
+      <th>
+        <div class="flex">
+          Course Title
+          <div class="flex-col ml-[11px] h-full jus-c-item-c">
+            <%= render partial: 'shared/sort_links', locals: {name: 'name'} %>
+          </div>
+        </div>
+      </th>
+      <th>
+        Enrollment
+      </th>
+      <th>
+        Created By
+      </th>
+      <th>
+        Added
+      </th>
+    </tr>
+    <tr class="hidden options-row h-[60px]">
+      <th class='w-[38px]'>
+        <%= render partial: 'shared/custom_checkbox_all' %>
+      </th>
+      <th colspan="100%" class="w-fit">
+        <div class="user-options hidden">
+          <div class="flex font-medium text-[14px] leading-[21px] mr-[15px] jus-c-item-c dark:text-white">
+            Selected: &nbsp;<span class="clr-slate dark:text-slate-300 selected-records">0</span>&nbsp;
+          </div>
+          <div class="w-fit h-[27px] bor-blue border-[1px] rounded-lg clr-blue cursor-pointer sel-white-cl mr-[15px] relative selection group dark:hover:bg-blue dark:hover:bor-blue">
+            <span class="w-full jus-b-item-c h-full font-medium text-[15px] leading-[22.5px] px-[12px] dark:text-white dark:bg-inherit rounded-lg">
+              <div class="w-[15px] h-[15px] mr-[10px] ic-edit"></div>
+                Edit
+            </span>
+          </div>
+          <a href="#" class="w-fit h-[27px] bor-blue border-[1px] rounded-lg clr-blue cursor-pointer sel-white-cl mr-[15px] relative selection group dark:hover:bg-blue dark:hover:bor-blue bulk-ids" data-href="<%=new_enrollment_path(id: '_id')%>" data-turbo-stream = "true">
+            <span class="w-full jus-b-item-c h-full font-medium text-[15px] leading-[22.5px] px-[12px] dark:text-white dark:bg-inherit rounded-lg">
+              <div class="w-[15px] h-[15px] mr-[10px] ic-user1"></div>
+                Enroll Users
+            </span>
+          </a>
+          <div class="w-fit h-[27px] bor-blue border-[1px] rounded-lg clr-blue cursor-pointer sel-white-cl mr-[15px] relative selection group dark:hover:bg-blue dark:hover:bor-blue">
+            <span class="w-full jus-b-item-c h-full font-medium text-[15px] leading-[22.5px] px-[12px] dark:text-white dark:bg-inherit rounded-lg">
+              <div class="w-[15px] h-[15px] mr-[10px] ic-user-plus"></div>
+                Collaborate
+            </span>
+          </div>
+          <div class="w-fit h-[27px]">
+            <div class="w-[30px] h-[30px] ic-action-options-b cursor-pointer rotate-90" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenter">
+            </div>
+            <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu">
+              <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container" ><div class="ic-copy w-[20px] h-[20px] mr-[12px]"></div>Copy</div>
+              <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container" ><div class="ic-move w-[20px] h-[20px] mr-[12px]"></div>Move</div>
+              <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container" ><div class="ic-rename w-[20px] h-[20px] mr-[12px]"></div>Rename</div>
+              <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container bulk-del" data-action="click->records-table#showModal" data-href="<%= course_path('_id', category_id: @category.id) %>"><div class="ic-delete-g bg-[length:19px] w-[20px] h-[20px] mr-[12px]"></div>Delete</div>
+            </div>
+          </div>
+        </div>
+      </th>
+    </tr>
+    <%= render partial: 'courses/courses_data', collection: @courses, as: :course %>
+  <% end %>
+</div>

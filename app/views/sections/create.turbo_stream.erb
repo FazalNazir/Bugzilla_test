@@ -1,0 +1,7 @@
+<%= turbo_stream.update 'section-container' do%>
+  <%=render partial: 'shared/records_table', locals:{records: @sections, name: 'title', clas: 'section', rec_del_path: method(:section_path), rec_edit_path: method(:edit_section_path), rec_bulk_path: method(:edit_section_path)}%>
+<%end%>
+
+<%= render partial: 'shared/close_modals', locals: { modal: 'del-modal' } %>
+
+<%= render partial: 'shared/show_flash'%>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="<%=current_user.dark_mode? ? 'dark' : 'light'%>">
+  <head>
+    <title>LndSystem</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  </head>
+
+  <body class="transition-all" data-controller= "effects" >
+    <div class="w-flex h-[100vh]" data-action="click->effects#closeAllMenus">
+      <div class="max-w-[264px] w-fcol items-center dark:bg-dark bg-white transition-all">
+        <div class="w-full max-w-[calc(100%-26px)] px-[13px] py-[23px] mb-[15px]"><%=image_tag "logo.svg"%></div>
+        <%= render partial: "/shared/app_layout_options", collection: @options, as: :option, locals: {active: @active || 'ic-dashboard' , sub_active: @sub_active || 'users'}%>
+      </div>
+      <div class="w-full pl-[27px] pr-[54px] transition-all bg-[#E7EAF0] dark:bg-light-dark">
+        <%=render partial: '/shared/header', locals: {heading: @heading}%>
+        <%= yield %>
+      </div>
+      <div id="flash" class="top-[100px] right-[42px] w-fit h-fit absolute flex flex-col items-end z-[200]">
+        <%= render partial: '/shared/flash'%>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </body>
+</html>

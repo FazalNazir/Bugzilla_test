@@ -1,0 +1,11 @@
+table[id*="-table"] td:not(.filter) {
+  @apply py-[24px]
+}
+
+.in-active-part {
+  @apply bor-slate dark:border-white
+}
+
+.active-part {
+  @apply bor-blue bg-blue
+}

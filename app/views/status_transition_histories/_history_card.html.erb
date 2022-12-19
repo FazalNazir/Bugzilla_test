@@ -1,0 +1,7 @@
+<div class="flex w-full h-fit jus-s-item-c mb-[40px]">
+  <div class="bg-slate-300 w-[10px] h-[10px] mr-[20px] rounded-full ml-[15px]"></div>
+  <div class="w-[calc(100%-65px)] flex flex-col h-fit text-justify rounded-lg box-shadow-sm p-[10px] text-[12px] text-slate-700 history-message">
+    <span class="mb-[10px]"><%=get_reason(history)%></span>
+    <div class="w-full text-black jus-e-item-c italic bold"><%=history.created_at.strftime('%A, %B %e, %Y at %I:%M %p')%></div>
+  </div>
+</div>

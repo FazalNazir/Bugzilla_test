@@ -1,0 +1,44 @@
+<%unless params.key?(:course_id) && params[:action] == 'index' %>
+  <%=turbo_stream.update "section-body-#{@section.id}" do%>
+    <%= render partial: 'shared/records_data', collection: @tasks, as: :record, locals: {clas: 'assignment', rec_del_path: method(:task_path), rec_edit_path: method(:edit_task_path)}%>
+    <tr id="task-new-<%=@section.id%>"><td colspan="100%"><a href="<%=new_task_path(id: @section.id)%>" data-turbo-stream="true"><button class="ml-[20px] box-shadow-sm my-[10px] font-regular text-[15px] w-[200px] h-[33px] px-[5px] jus-c-item-c rounded-full self-start">
+              <div class="ic-plus-b w-[30px] h-[30px]"></div><div class="clr-blue mr-[10px] w-full">Add Assignment</div>
+            </button></a></td></tr>
+  <%end%>
+
+<%else%>
+  <%= turbo_stream.replace "evaluation-table-container" do%>
+  <div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden h-full" id="evaluation-table-container">
+        <%=render partial: 'shared/records_table', locals:{records: @tasks, name: 'name', clas: 'task-evaluation', rec_del_path: method(:task_path), rec_edit_path: method(:edit_task_path), rec_bulk_path: method(:edit_task_path)}%>
+  </div>
+  <%end%>
+
+  <%= turbo_stream.update "filter-pagination" do%>
+    <div class="font-medium text-[14px] leading-[21px] text-[#B5B7C0]"><%= page_entries_info @tasks %></div>
+    <div><%= will_paginate @tasks, inner_window: 2 , outer_window: 0, renderer: @paginate_turbo_stream %></div>
+  <%end%>
+
+  <%=turbo_stream.update "selected-task" do%>
+    <%=@course.title%>
+  <%end%>
+
+  <%=turbo_stream.update "tasks-path" do%>
+    Evaluation<div class="ic-drop-down w-[25px] h-[25px] bg-cover -rotate-90"></div><span><%=@course.title%></span><div id="evaluation-path" class="h-full jus-c-item-c"></div>
+  <%end%>
+
+  <%=turbo_stream.replace "search-field" do%>
+    <div class="h-full relative search-container" id="search-container">
+      <%= search_form_for @query, class: 'h-full', url: '#', data:{turbo_stream: true}, id: 'task-search-form' do |f| %>
+        <%= f.search_field :name_cont, class: 'max-w-[216px] dark:bg-dark dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white w-full h-full bor-slate outline-none focus:outline-slate-500 rounded-lg bg-[#F4F6FF]', data:{ action: 'focus->manage-user#searchHide blur->manage-user#searchHide input->manage-user#submitForm'} %>
+        <span class="absolute text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+        <%= f.submit '', class: 'hidden', class: 'flt-submit'%>
+      <%end%>
+    </div>
+  <%end%>
+
+  <%=turbo_stream.replace "select-course" do%>
+  <%end%>
+
+<%end%>
+<%= render partial: 'shared/show_flash'%>
+<%= render partial: 'shared/close_modals', locals: {modal: 'all'}%>

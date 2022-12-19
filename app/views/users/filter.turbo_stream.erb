@@ -1,0 +1,43 @@
+<%if params[:query][:from] == 'user_index'%>
+  <%= turbo_stream.update "table-users-body" do%>
+    <%= render partial: 'users/users_data', collection: @users, as: :user, locals:{from: 'users'}%>
+  <%end%>
+
+
+<%elsif params[:query][:from] == 'request'%>
+
+  <%= turbo_stream.update 'users-data' do%>
+    <div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden h-full" id="evaluation-table-container">
+      <%=render partial: 'shared/records_table', locals:{records: @users, name: 'name', clas: 'evaluator', rec_del_path: method(:user_path), rec_edit_path: method(:edit_user_path), rec_bulk_path: method(:edit_user_path)}%>
+    </div>
+  <%end%>
+
+<%else%>
+
+  <%= turbo_stream.update "users-filter-body" do%>
+    <%@users.each do |user|%>
+      <tr class="border-b-[1px] border-gray-200">
+        <td class="clr-slate text-[14px] leading-[21px]">
+          <div>
+            <div class="text-black dark:text-white font-normal"><%=user.name%></div>
+            <div class="dark:text-slate-300"><%=user.email%></div>
+          </div>
+        </td>
+        <td class="text-[14px] leading-[21px] dark:text-white">
+          SQA
+        </td>
+        <td>
+          <input type="checkbox" id="check_all" class="hidden emp-check" name="user_all" value="val" data-action="change->manage-user#check change->effects#bulkIds change->enroll-modal#changeUserSelectedValue" autocomplete="off" data-id="<%=user.id%>" data-bulkId="bulk-user-ids" data-clone="bulk-user-filter-ids" data-clonebulk="true">
+          <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+        </td>
+      </tr>
+    <%end%>
+  <%end%>
+<%end%>
+
+<%if params[:query][:from] == 'user_index' || params[:query][:from] == 'request'%>
+  <%= turbo_stream.update "filter-pagination#{params[:query][:from] == 'request' ? '-request' : ''}" do%>
+      <div class="font-medium text-[14px] leading-[21px] text-[#B5B7C0]"><%= page_entries_info @users %></div>
+      <div><%= will_paginate @users, inner_window: 2 , outer_window: 0, renderer: @paginate_turbo_stream %></div>
+    <%end%>
+<%end%>

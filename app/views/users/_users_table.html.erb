@@ -1,0 +1,76 @@
+<div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden" id="users-table">
+  <%= render layout: 'shared/records_table_shared', locals: {class_name: 'courses'} do %>
+    <colgroup>
+      <col class="min-w-[38px]">
+      <col class="min-w-[184px]">
+      <col class="min-w-[164px]">
+      <col class="min-w-[127px]">
+      <col class="min-w-[120px]">
+      <col class="min-w-[116px]">
+      <col class="min-w-[94px]">
+    </colgroup>
+
+    <tr class="h-[60px] table-head">
+      <th id='checkbox-alt-container'>
+        <%= render partial: 'shared/custom_checkbox_all' %>
+      </th>
+      <th>
+        <div class="flex">
+          User Name
+          <div class="flex-col ml-[11px] h-full jus-c-item-c" id="sort-links">
+            <%= render partial: 'shared/sort_links', locals: {name: 'name'} %>
+          </div>
+        </div>
+      </th>
+      <th>Date</th>
+      <th>
+        <div class="relative action-container jus-c-item-c">
+          Roles
+          <button class="ic-filter w-[15px] h-[15px] rounded-full ml-[5px]" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenter"></button>
+          <div class="w-[200px] h-[180px] overflow-y-scroll jus-c-item-s box-shadow-sm fixed rounded-lg bg-white action-menu fixed-menu hidden dark:bg-light-dark z-[3]">
+            <table class="w-full ml-[7px] mr-[7px]">
+              <tr>
+                <td class="px-[5px] filter">
+                  <input type="checkbox" name="all" autocomplete='off' data-action="click->manage-user#filterCheckAll" class="flt-check hidden" data-name='all'>
+                  <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+                </td>
+                <td class="pl-[7px] text-[14px] filter">ALL<td>
+              </tr>
+              <%= render partial: 'filters_options', collection: all_roles, as: :role %>
+            </table>
+          </div>
+        </div>
+      </th>
+      <th class="text-center">Groups</th>
+      <th class="text-center">Status</th>
+      <th class="text-center">Actions</th>
+    </tr>
+    <tr class="hidden options-row h-[60px]">
+      <th id="checkbox-container">
+        <%= render partial: 'shared/custom_checkbox_all' %>
+      </th>
+      <th colspan="100%" class="w-fit">
+        <div class="user-options hidden">
+          <div class="flex font-medium text-[14px] leading-[21px] mr-[15px] jus-c-item-c dark:text-white">
+            Selected: &nbsp;<span class="clr-slate dark:text-slate-300 selected-records" id="selected-records">0</span>&nbsp;
+          </div>
+          <div class="w-[160px] mr-[10px] h-[27px]">
+            <%= form_for :status, url: '#', method: :patch, class: 'w-full h-full jus-c-item-c', data: { href: user_path('_id')} do |f| %>
+              <select name="user[active]" data-effects-target="select" autocomplete="off" data-action= 'change->manage-user#parentFormSubmit'>
+                <option value="" data-placeholder>Change Status</option>
+                <option value="true">Active</option>
+                <option value="false">In Active</option>
+              </select>
+              <%= hidden_field_tag :from, 'status' %>
+              <%= f.submit '', class: 'hidden'%>
+            <% end %>
+          </div>
+          <div class="w-[15px] h-[19px] ic-delete mr-[15px] bg-[length:19px] self-center cursor-pointer bulk-del" data-action="click->records-table#showModal" data-href="<%=user_path('_id')%>"></div>
+        </div>
+      </th>
+    </tr>
+    <tbody id='table-users-body'>
+      <%= render partial: 'users/users_data', collection: @users, as: :user %>
+    </tbody>
+  <% end %>
+</div>

@@ -1,0 +1,27 @@
+<% if params[:from] == 'new_sync' %>
+  <%= turbo_stream.update 'found-user-body' do %>
+    <% @users.each do |user| %>
+      <% role = user.has_role?(:training_supervisor) ? 'Supervisor' : 'Trainee' %>
+      <div class="jus-s-item-c">
+        <div class="px-2">
+          <input type="checkbox" class="no-outline accent-blue-700" name="user" data-sync-target="check" data-action="change->sync#assignID" data-id="<%= user.id %>" data-role="<%= role %>">
+        </div>
+        <span class="text-[12px]">
+          <span class="text-[14px] mr-[10px] dark:text-white"><%= user.name %></span>(
+          <span class="text-[12px] dark:text-white"><%= user.email %></span>)
+          <span class="text-[12px] px-[5px] py-[1px] rounded-full dark:text-white bg-blue-300 ml-[10px]"><%= role %></span>
+        </span>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "table-users-body" do %>
+    <%= render partial: 'users/users_data', collection: @users, as: :user %>
+  <% end %>
+
+  <%= turbo_stream.update "sort-links" do %>
+    <%= render partial: 'shared/sort_links', locals: {name: 'name'} %>
+  <% end %>
+
+  <%= render partial: 'shared/replace_pagination_links', locals: {records: @users} %>
+<% end %>

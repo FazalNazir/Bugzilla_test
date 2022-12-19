@@ -1,0 +1,39 @@
+<div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden" id="groups-table">
+  <%= render layout: 'shared/records_table_shared', locals: {class_name: 'groups'} do %>
+    <colgroup>
+      <col class="w-[38px]">
+      <col class="min-w-[216px]">
+      <col class="w-[100px]">
+    </colgroup>
+    <tr class="h-[60px] table-head">
+      <th>
+        <%= render partial: 'shared/custom_checkbox_all' %>
+      </th>
+      <th>
+        <div class="flex">
+          Group Title
+          <div class="flex-col ml-[11px] h-full jus-c-item-c">
+            <%= render partial: 'shared/sort_links', locals: {name: 'title'} %>
+          </div>
+        </div>
+      </th>
+      <th class="text-center">
+        Users
+      </th>
+    </tr>
+    <tr class="hidden options-row h-[60px]">
+      <th class='w-[38px]'>
+        <%= render partial: 'shared/custom_checkbox_all' %>
+      </th>
+      <th colspan="100%" class="w-fit">
+        <div class="user-options hidden">
+          <div class="flex font-medium text-[14px] leading-[21px] mr-[15px] jus-c-item-c dark:text-white">
+            Selected: &nbsp;<span class="clr-slate dark:text-slate-300 selected-records">0</span>&nbsp;
+          </div>
+          <div class="w-[15px] h-[19px] ic-delete mr-[15px] bg-[length:19px] self-center cursor-pointer bulk-del" data-action="click->records-table#showModal" data-href="<%= group_path('_id') %>"></div>
+        </div>
+      </th>
+    </tr>
+    <%= render partial: 'groups_data', collection: @groups, as: :group %>
+  <% end %>
+</div>

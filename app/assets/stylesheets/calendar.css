@@ -1,0 +1,95 @@
+@layer components {
+  .simple-calendar table {
+    -webkit-border-horizontal-spacing: 0px;
+    -webkit-border-vertical-spacing: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    box-sizing: border-box;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .simple-calendar td {
+    padding: 6px;
+    vertical-align: top;
+    width: 14%;
+
+    border: 1px solid #ddd;
+    border-top-color: rgb(221, 221, 221);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(221, 221, 221);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(221, 221, 221);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(221, 221, 221);
+    border-left-style: solid;
+    border-left-width: 1px;
+  }
+
+  .fixed-menu.vanilla-calendar_default, .fixed-menu.vanilla-calendar_month, .fixed-menu.vanilla-calendar_year, .fixed-menu.vanilla-calendar_month .vanilla-calendar-months, .fixed-menu.vanilla-calendar_year .vanilla-calendar-years {
+    @apply bg-white dark:bg-light-dark
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-month, .fixed-menu.vanilla-calendar_default .vanilla-calendar-year, .fixed-menu.vanilla-calendar_default .vanilla-calendar-day__btn, .fixed-menu.vanilla-calendar_month .vanilla-calendar-month, .fixed-menu.vanilla-calendar_month .vanilla-calendar-year, .fixed-menu.vanilla-calendar_year .vanilla-calendar-month, .fixed-menu.vanilla-calendar_year .vanilla-calendar-year {
+    @apply dark:text-white
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-time__minutes, .fixed-menu.vanilla-calendar_default .vanilla-calendar-time__minutes input, .fixed-menu.vanilla-calendar_default .vanilla-calendar-time__hours,  .fixed-menu.vanilla-calendar_default .vanilla-calendar-time__hours::after, .fixed-menu.vanilla-calendar_default .vanilla-calendar-time__hours input, .fixed-menu.vanilla-calendar_default .vanilla-calendar-time__keeping, .fixed-menu.vanilla-calendar_default .vanilla-calendar-time__range input {
+    @apply dark:bg-light-dark dark:text-white
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-arrow::before, .fixed-menu.vanilla-calendar_default .vanilla-calendar-arrow::after, .fixed-menu.vanilla-calendar_year .vanilla-calendar-arrow::after, .fixed-menu.vanilla-calendar_year .vanilla-calendar-arrow::before {
+    @apply dark:bg-white
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-month:hover, .fixed-menu.vanilla-calendar_default .vanilla-calendar-year:hover {
+    @apply dark:text-green-400
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-day__btn:hover {
+    @apply dark:text-black
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-day__btn_prev {
+    @apply dark:text-slate-500
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-day__btn_next {
+    @apply dark:text-slate-500
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-day__btn_today {
+    @apply dark:text-green-400
+  }
+
+  .fixed-menu.vanilla-calendar_default .vanilla-calendar-day__btn_weekend:not(.vanilla-calendar-day__btn_next) {
+    @apply dark:text-orange-400
+  }
+
+  .simple-calendar .day {
+    height: 150px;
+  }
+
+  .simple-calendar .today .date {
+    @apply bg-blue-700 rounded-full w-[30px] h-[30px] text-white jus-c-item-c
+  }
+
+  .simple-calendar .prev-month {
+    background: #DDD;
+  }
+  .simple-calendar .next-month {
+    background: #DDD;
+  }
+
+  .field.date-only .vanilla-calendar-time, .field.time-only .vanilla-calendar-header, .field.time-only .vanilla-calendar-week, .field.time-only .vanilla-calendar-days {
+    @apply hidden
+  }
+
+  .field.time-only .vanilla-calendar-time {
+    @apply m-0 border-0 p-0
+  }
+}

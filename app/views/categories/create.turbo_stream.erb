@@ -1,0 +1,14 @@
+<%= turbo_stream.replace "edit-modal" do %>
+  <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal hidden z-[100]" id="edit-modal">
+  </div>
+<% end %>
+
+<%= turbo_stream.append "category-menu" do %>
+  <%= link_to category_path(@category), data:{turbo_stream: true} do %>
+    <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]">
+      <div><%=@category.title%></div>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render partial: 'shared/show_flash' %>

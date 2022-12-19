@@ -1,0 +1,33 @@
+<div class="w-[848px] h-[348px] absolute top-[calc(50%-240px)] left-[calc(50%-424px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark">
+  <div class="w-full h-[88px] px-[26px] bg-gradient-to-b to-[#3649F9] from-[#171499] jus-b-item-c rounded-t-lg">
+    <div class="text-[25px] leading-[37.5px] font-bold text-white">New Group</div>
+    <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+  </div>
+  <%= form_for @user, url:user_path(@user.id), method: :patch, html: {class: 'w-fcol dark:bg-light-dark h-full add-group-form'} do |f| %>
+    <div class="w-fcol jus-c-item-c h-full dark:bg-light-dark">
+      <div class="w-full mb-auto">
+        <div class="w-flex pt-[37px] px-[38px]">
+          <div class="mb-[35px] w-fcol">
+            <div class="clr-blue mb-[4px] dark:text-white">Title</div>
+              <%= hidden_field_tag :from, 'group' %>
+              <%= f.hidden_field :group_ids, class: 'w-full h-[58px] bor-blue border-[1px] rounded-md dark:bg-dark dark:border-white dark:text-white hidden group-title-input' %>
+              <div class="w-full h-[58px] bor-blue border-[1px] rounded-md jus-b-item-c px-[10px] cursor-pointer dark:text-white dark:border-white relative selection">
+                <div class="w-full h-full jus-s-item-c group-title"></div>
+                <div class="ic-drop-down transition-all h-full w-[50px] cursor-pointer sel-blue-cl rotate-0" data-action="click->manage-user#select click->manage-user#rotate" data-class="sel-blue"></div>
+                <div class="w-full max-h-[160px] h-fit overflow-y-scroll left-0 top-[60px] absolute hidden selection-menu rounded-lg box-shadow-sm bg-white dark:bg-light-dark py-[5px]">
+                  <% all_unassigned_groups(@user).each do |group| %>
+                    <div id="<%=group.title%>" class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]" data-action='click->manage-user#addGroup' data-id="<%=group.id%>"><%=group.title%></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-[50%] self-end  mb-[35px] jus-c-item-c mt-auto">
+        <button type="button" class="w-[158px] h-[50px] bor-blue cursor-pointer sel-white-cl border-[1px] rounded-lg mr-[16px] clr-blue dark:text-white dark:border-white dark:hover:bor-blue" data-action="click->effects#modal">Cancel</button>
+        <%= button_tag 'Save', type: :submit, class: 'w-[158px] h-[50px] bor-blue border-[1px] rounded-lg btn-blue' %>
+      </div>
+    </div>
+  <% end %>
+</div>

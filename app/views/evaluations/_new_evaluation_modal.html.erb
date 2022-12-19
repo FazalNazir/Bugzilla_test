@@ -1,0 +1,51 @@
+<div class='w-[848px] h-[480px] absolute top-[calc(50%-240px)] left-[calc(50%-424px)] bg-white box-shadow-md rounded-lg dark:bg:dark' id="detail-modal" >
+  <div class='h-[88px] px-[26px] bg-blue jus-b-item-c rounded-t-lg'>
+    <div class='text-white font-bold text-[26px]'>Details</div>
+    <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+  </div>
+
+  <div class='overflow-x-auto relative'>
+    <% trainee = get_user(evaluation) %>
+    <% event = evaluation_event(evaluation) %>
+    <table class='w-full text-sm text-left text-black dark:text-gray-400'>
+        <tbody>
+            <tr class='eval_row'>
+              <th scope='row' class='eval_header'>
+                <div class='eval_heading'>Trainee ID</div>
+              </th>
+              <td class='eval_attributes'><%= trainee.id %></td>
+            </tr>
+            <tr class='eval_row'>
+              <th scope='row' class='eval_header'>
+                <div class='eval_heading'>Name</div>
+              </th>
+              <td class='eval_attributes'><%= trainee.name %></td>
+            </tr>
+            <tr class='eval_row'>
+              <th scope='row' class='eval_header'>
+                <div class='eval_heading'>Email</div>
+              </th>
+              <td class='eval_attributes'><%= trainee.email %></td>
+            </tr>
+            <tr class='eval_row'>
+              <th scope='row' class='eval_header'>
+                <div class='eval_heading'>Evaluation Type</div>
+              </th>
+              <td class='eval_attributes'><%= get_task(@evaluation.task_id).name%></td>
+            </tr>
+            <tr class='eval_row'>
+              <th scope='row' class='eval_header'>
+                <div class='eval_heading'>Time</div>
+              </th>
+              <td class='eval_attributes'><%= event.start_date %></td>
+            </tr>
+            <tr class='eval_row'>
+              <th scope='row' class='eval_header'>
+                <div class='eval_heading'>Venue</div>
+              </th>
+              <td class='eval_attributes'><%= event.location %></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>

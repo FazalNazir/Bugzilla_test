@@ -1,0 +1,27 @@
+<div class="h-[142px] w-full jus-b-item-c">
+  <div class="font-bold text-[25px] leading-[37.5px] clr-blue dark:text-white jus-c-item-c <%=@action == 'course-show' ? 'cursor-pointer' : ''%>" <%=@action == 'course-show' ? 'onclick=history.back()' : ''%>>
+    <%if @action == 'course-show'%>
+      <div class="ic-drop-down w-[20px] h-[20px] mr-[20px] rotate-90"></div>
+    <%end%>
+      <%=heading%>
+  </div>
+  <div class="flex">
+    <button class="h-[52px] w-[52px] rounded-full box-shadow-sm hover:box-shadow-md cursor-pointer jus-c-item-c mr-[18px] bg-[length:40px] bg-white dark:bg-dark dark:shadow-none" data-action="click->effects#darkMode">
+      <div class="<%=current_user.dark_mode? ? 'ic-moon' : 'ic-sun'%> w-[30px] h-[30px] bg-cover" data-effects-target="dark"></div>
+    </button>
+    <div class="relative w-fit h-fit">
+      <%= button_to read_notifications_path, class: 'h-[52px] w-[52px] bg-white rounded-full box-shadow-sm hover:box-shadow-md cursor-pointer jus-c-item-c mr-[18px] dark:shadow-none dark:bg-dark', method: :patch, data: {action: 'click->effects#showContainer:stop'} do %>
+          <div class="ic-notif-in w-[24px] h-[24px] bg-cover" id="notification-icon" data-effects-target="notification"></div>
+          <div class="bg-white dark:bg-dark rounded-full w-[10px] h-[10px] absolute jus-c-item-c top-[14px] right-[15px] <%= current_user.any_unread_notifications? ? '' : 'hidden' %>" id="ping">
+            <div class="w-[6px] h-[6px] bg-blue-700 dark:bg-white rounded-full"></div>
+          </div>
+      <% end %>
+      <div class="w-[400px] z-[30] dark:bg-dark action-menu fixed-menu hidden h-fit min-h-[220px] max-h-[270px] overflow-y-scroll py-[10px] bg-white top-[55px] right-5 absolute rounded-lg box-shadow-md" id="notifications">
+        <%= render partial: 'shared/notification', collection: current_user.all_notifications, as: :notification %>
+      </div>
+    </div>
+    <button class=" bg-white rounded-full hover:box-shadow-md cursor-pointer jus-c-item-c">
+      <%= image_tag 'random_user.svg'%>
+    </button>
+  </div>
+</div>

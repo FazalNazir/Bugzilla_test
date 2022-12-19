@@ -1,0 +1,163 @@
+<tr class="border-b-[1px] clr-slate text-[14px] leading-[21px] inactive border-gray-200 <%=clas == 'section' ? 'cursor-pointer hover:bg-slate-300' : ''%>" id= "<%=clas%>-row-<%=record.id%>" data-href="<%=clas == 'section' ? tasks_url(section_id: record.id) : ''%>" data-action="<%=clas == 'section' ? 'click->records-table#sendRequest' : ''%>" data-id="<%=record.id%>">
+  <%unless clas == 'request' || clas == 'evaluator'%>
+    <td>
+        <div class="<%=clas == 'section' || clas == 'assignment' ? 'jus-s-item-c pl-[15px]' : ''%>">
+          <%if clas == 'section'%>
+            <div class="transition-all ic-drop-down -rotate-90 w-[10px] h-[10px] mr-[10px]"></div>
+          <%end%>
+          <%unless clas == 'assignment'%>
+            <input type="checkbox" id="check_all" class="hidden emp-check" name="user_all" value="val" data-action="change->records-table#check change->records-table#bulkId" autocomplete="off" data-id="<%=record.id%>">
+            <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+          <%end%>
+          <%if clas == 'section'%>
+            <div class="h-[20px] border-[1px] border-slate-400 rounded-full m-auto"></div>
+          <%end%>
+        </div>
+    </td>
+  <%end%>
+  <%unless clas == 'role'%>
+    <%if clas == 'enrollment'%>
+      <td ><%=record.user.name%></td>
+    <%elsif clas == 'course' || clas == 'task-evaluation'%>
+      <td ><a href="<%=clas == 'task-evaluation' ? evaluations_path(task_id: record.id) : course_path(record.id)%>" class="hover:underline" <%=clas == 'task-evaluation' ? 'data-turbo-stream=true' : ''%>><%= clas == 'task-evaluation' ? record.name : record.title%></a></td>
+    <%elsif clas == 'evaluation' || clas == 'request' || clas == 'evaluator'%>
+      <td >
+        <div class="flex flex-col">
+          <div class="text-black dark:text-white"><%=clas == 'evaluator' ? record.name : record.trainee.name%></div>
+          <div><%= clas == 'evaluator' ? record.email : record.trainee.email%></div>
+        </div>
+      </td>
+    <%elsif clas!='section' && clas!='group'%>
+      <td ><%=record.name%></td>
+    <%else %>
+      <td ><%=record.title%></td>
+    <%end%>
+  <%end%>
+  <%if clas == 'course'%>
+    <td ><%=record.enrollments.count > 0 ? 'Enrolled' : '---'%></td>
+  <%elsif clas == 'evaluation' || clas == 'request'%>
+    <td><%=record.created_at.strftime('%d-%m-%Y, %H:%M')%></td>
+  <%end%>
+  <%if clas == 'request'%>
+    <td><%=record.enrollment.course.title%></td>
+  <%end%>
+  <%if clas == 'evaluation' || clas == 'request'%>
+    <td >
+      <div class="flex flex-col">
+        <div class="text-black dark:text-white"><%=record.evaluator_id.nil? ? '___' : record.evaluator.name%></div>
+        <%unless record.evaluator_id.nil?%>
+          <div><%=record.evaluator.email%></div>
+        <%end%>
+      </div>
+    </td>
+    <%unless clas == 'request'%>
+      <td>
+        <div class="flex flex-col">
+          <%unless record.evaluation_date.nil?%>
+            <div class="text-black dark:text-white"><%=record.evaluation_date.strftime('%d-%m-%Y')%></div>
+            <div><%=record.evaluation_date.strftime('%I:%M %p')%></div>
+          <%else%>
+            <div class="text-black dark:text-white">___</div>
+          <%end%>
+        </div>
+      </td>
+    <%end%>
+  <%end%>
+  <%if clas == 'evaluator'%>
+    <td class="w-[65px]"><div class="w-full h-[20px] jus-c-item-c"><div class = "w-[28px] mr-[9px] h-[17px]">ROR</div><div class="w-[28px] h-[17px] jus-c-item-c border-[1px] cursor-pointer  hover:bg-blue-700 hover:text-white rounded-lg text-blue-700 border-blue-700 text-[10px]">+2</div></div></td>
+    <td >
+      <div class="grid grid-cols-2 gap-1">
+        <%slots = record.all_time_slots(params[:date])%>
+        <%slots.each_with_index do |slot, index| %>
+          <div class="text-blue-700 border-[1px] border-blue-700 text-[10px] jus-c-item-c hover:bg-blue-700 hover:text-white rounded-md w-[72px] cursor-pointer h-[17px]"><%=slot[:slot]%></div>
+          <%slots = slots-[slot]%>
+          <%index == 2 && break%>
+        <%end%>
+        <%unless slots.length == 0%>
+          <div class="group relative text-blue-700 border-[1px] border-blue-700 text-[10px] jus-c-item-c hover:bg-blue-700 hover:text-white rounded-md w-[72px] cursor-pointer h-[17px]" data-action="mouseover->effects#ApplyfixedPositionTop">
+            +<%=slots.length%>
+            <ul class="w-[160px] px-[5px] py-[5px] z-[4] h-fit bor-blue bg-blue-500 border-blue-500 text-white box-shadow-lg rounded-lg hidden group-hover:flex group-hover:flex-col fixed left-0 bottom-[31px] clr-blue border-[1px] fixed-menu">
+              <% slots.each do |slot|%>
+                <li><%=slot[:slot]%></li>
+              <%end%>
+            </ul>
+          </div>
+        <%end%>
+     </div>
+    </td>
+    <td class="text-center">Available</td>
+  <%end%>
+  <%unless clas == 'request'%>
+    <td id="section-title-<%=record.id%>" ><div class="<%= clas == 'evaluator' ? 'text-center' : ''%> <%=clas == 'section' ? 'h-[20px] overflow-hidden w-[90%]' : (clas == 'evaluation' ? 'w-full jus-c-item-c' : '')%>"><%=(clas == 'enrollment' ? record.start_date : (clas == 'course' ? record.created_by : (clas == 'group' ? get_user_count_from_group(record) : (clas == 'task-evaluation' ? record.created_at : ( (clas == 'evaluation') ? record.status : ( clas == 'evaluator' ? '02' : record.description))))))%></div></td>
+  <%else%>
+    <td><div class="h-full w-full jus-c-item-c cursor-pointer" data-action="<%= record.request? ? 'click->manage-user#optionsShow:stop click->effects#ApplyfixedPositionBottom' : ''%>"><div class="bg-blue text-white rounded-full w-fit jus-c-item-c"><span class="px-[10px] py-[2px]"><%=record.request? ? 'Pending' : (record.rejected? || record.request? ? record.status : 'Approved')%></span>
+      <%if record.request?%>
+        <div class="ic-drop-down-w w-[15px] h-[15px] mr-[10px]"></div>
+      <%end%>
+    </div></div>
+    <%if record.request?%>
+      <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu" id="action-menu-<%=record.id%>">
+        <a href="<%=wizard_path(:assign_evaluator, evaluation_id: record.id, flow: :accept)%>" data-turbo-stream="true" class= "flex text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]">
+          <div class="ic-tick w-[15px] h-[15px] mr-[10px] self-center"></div>Accept
+        </a>
+        <a href="<%=wizard_path(:reject_request, evaluation_id: record.id, perform: :reject, flow: :reject)%>" data-turbo-method="patch" data-turbo-stream="true" class= "flex text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]">
+          <div class="ic-cancel-sm w-[15px] h-[15px] mr-[10px] self-center"></div>Reject
+        </a>
+      </div>
+    <%end%>
+    </td>
+  <%end%>
+  <%if clas=='section' || clas == 'assignment'%>
+    <td ><%=clas == 'assignment' ? record.duration : record.days%></td>
+  <%elsif clas == 'enrollment'%>
+    <td ><%=record.due_date%></td>
+    <td id="submit-container-<%=record.id%>" ><%=record.start_date < DateTime.now ? 'Started' : ( record.due_date < DateTime.now ? 'Ended' : 'Not Started')%></td>
+  <%elsif clas == 'course'%>
+    <td ><%=record.created_at%></td>
+  <%elsif clas == 'task-evaluation'%>
+    <td ><%=record.pending_evaluations(:ready)%></td>
+  <%elsif clas == 'evaluation'%>
+    <td><div class="w-full h-full jus-c-item-c"><div class="ic-eye w-[24px] h-[24px]"></div></div></td>
+  <%elsif clas == 'evaluator'%>
+    <td class="jus-c-item-c"><a href="<%=evaluation_path(:assign_evaluator, perform: :accept, evaluation_id: @evaluation.id, evaluation:{evaluator_id: record.id}, date: params[:date], delete_evaluation: params[:evaluation])%>" data-turbo-method="patch" data-turbo-stream="true" class="w-[100px] jus-c-item-c h-[35px] bg-blue-700 text-white border-[1px] bor-blue rounded-lg">Select</a></td>
+  <%end%>
+  <%unless clas == 'group' || clas == 'request' || clas == 'evaluator'%>
+    <td class="clr-slate dark:text-slate-300 text-center text-[14px] leading-[21px] jus-c-item-c relative action-container min-h-[43px]">
+      <%if clas == 'section'%>
+        <div class="flex">
+          <div class="ic-arrow-up w-[15px] h-[15px] mr-[5px]"></div>
+          <div class="ic-arrow-up w-[15px] h-[15px] rotate-180 mr-[5px]"></div>
+        </div>
+      <%end%>
+      <div class="w-[30px] h-[30px] ic-action-options cursor-pointer" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottom">
+      </div>
+      <div class="w-[<%=clas == 'evaluation' ? '191' : '163' %>px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu" id="action-menu-<%=record.id%>">
+        <%unless clas == 'course' || clas == 'evaluation'%>
+          <%= link_to 'Edit', rec_edit_path.call(record.id), data:{turbo_stream: true}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+          <div class="border-b-[1px] border-gray-200 w-[calc(100%-18px)] ml-[9px] mr-[9px]"></div>
+        <%end%>
+        <%if clas == 'section'%>
+          <%= link_to 'View', section_path(record.id), data:{turbo_stream: true}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+          <div class="border-b-[1px] border-gray-200 w-[calc(100%-18px)] ml-[9px] mr-[9px]"></div>
+        <%end%>
+        <%unless clas == 'evaluation'%>
+          <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]" data-action="click->records-table#showModal" data-href="<%=rec_del_path.call(record.id,(clas == 'course' ? {category_id: @category.id} : ''))%>">Delete</div>
+        <%end%>
+        <%if clas == 'section'%>
+          <div class="border-b-[1px] border-gray-200 w-[calc(100%-18px)] ml-[9px] mr-[9px]"></div>
+          <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]">Shuffle Assignment</div>
+        <%end%>
+        <%if clas == 'evaluation'%>
+          <%= link_to 'Change Evaluator', wizard_path(:assign_evaluator, evaluation_id: record.id, flow: :accept), data:{turbo_stream: true}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+          <%= link_to 'Change Evaluation Date', wizard_path(:assign_event_date, evaluation_id: record.id, flow: :accept, evaluator_id: record.evaluator_id, date: record.event.start_date.to_date, close_btn: true), data:{turbo_stream: true}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+          <%= link_to 'Mark As Complete',  rec_del_path.call(:complete_evaluation, evaluation_id: record.id, flow: :complete), data:{turbo_stream: true, turbo_method: :patch}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+          <%= link_to 'History', status_transition_histories_path(historic_id: record.id, historic_type: record.class.name), data:{turbo_stream: true}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+        <%end%>
+      </div>
+    </td>
+  <%end%>
+</tr>
+<%if clas == 'section'%>
+  <tbody id= "<%=clas%>-body-<%=record.id%>" class="border-[1px] border-black">
+  </tbody>
+<%end%>

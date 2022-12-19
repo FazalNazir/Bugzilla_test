@@ -1,0 +1,9 @@
+<% method = method.nil? ? :get : method %>
+<% turbo_stream = turbo_stream.nil? ? false : turbo_stream %>
+
+<%= link_to path, data:{turbo_stream: turbo_stream}, method: method, class: 'mr-[25px]' do %>
+  <button class="w-fit px-[13px] h-[42px] rounded-lg clr-blue jus-c-item-c cursor-pointer sel-blue">
+    <div class="<%= icon %> w-[15px] h-[15px] mr-[12px]"></div>
+    <%= text %>
+  </button>
+<% end %>

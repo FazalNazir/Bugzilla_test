@@ -1,0 +1,7 @@
+<tr class="clr-slate" id= "group-row-<%= group.id %>" data-id="<%= group.id %>">
+  <td>
+    <input type="checkbox" id="check_all" class="data-check no-outline accent-blue-700" name="user_all" value="val" data-action="change->records-table#check change->records-table#bulkId" autocomplete="off" data-id="<%= group.id %>">
+  </td>
+  <td class="clr-slate flex items-center"><%= group.title %></td>
+  <td class="text-center"><%= group.users_count %></td>
+</tr>

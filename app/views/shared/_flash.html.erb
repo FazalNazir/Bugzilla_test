@@ -1,0 +1,13 @@
+<%if flash.key?(:notice) || flash.key?(:alert)%>
+  <div class="transition-all duration-1000 w-[436px] h-[90px] rounded-full bg-white box-shadow-md jus-b-item-c p-[24px] flash-container" data-effects-target = 'flash'>
+    <div class="jus-s-item-c w-fit h-full">
+      <div class="w-[40px] h-full <%= flash.key?(:notice) ? 'ic-success' : 'ic-flash-alert'%> mr-[13px]">
+      </div>
+      <div class='flash-text opacity-100'>
+        <div class="clr-blue font-semibold text-[20px]"><%= flash.key?(:notice) ? 'Success' : 'Ops!'%></div>
+        <div class="text-secondary text-[14px] clr-slate"><%= flash.key?(:notice) ? flash[:notice] : flash[:alert]%></div>
+      </div>
+    </div>
+    <div class="w-[40px] h-[40px] opacity-100 ic-cancel cursor-pointer rounded-lg flash-cancel" data-action="click->effects#flash"></div>
+  </div>
+<%end%>

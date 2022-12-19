@@ -1,0 +1,16 @@
+<div class="w-[500px] h-[600px] absolute top-[calc(50%-350px)] left-[calc(50%-250px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark" data-controller="modal">
+  <div class="w-full h-[88px] px-[26px] bg-gradient-to-b to-[#3649F9] from-[#171499] jus-b-item-c rounded-t-lg">
+    <div class="text-[25px] leading-[37.5px] font-bold text-white" id="assign-modal-heading">History</div>
+    <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+  </div>
+
+  <div class="h-[calc(100%-88px)] w-flex flex-col history-container items-end" id="assign-modal-body">
+    <div class="relative w-[calc(100%-20px)] border-l-[2px] max-h-[100%] h-full border-slate-300">
+      <div class="absolute w-[calc(100%+20px)] max-h-[100%] h-full left-[-21px]">
+        <div class="w-full h-fit max-h-[100%] pt-[40px] overflow-y-scroll">
+            <%= render partial: 'history_card', collection: @status_transition_history, as: :history%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

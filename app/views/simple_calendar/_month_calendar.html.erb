@@ -1,0 +1,40 @@
+<div class="calendar-heading p-[10px] jus-s-item-c absolute">
+  <%= link_to calendar.url_for_previous_view, class: 'rotate-90 w-[40px] jus-c-item-c' do %>
+    <button class="w-[30px] h-[40px] text-[24px] ic-drop-down-g hover:box-shadow-sm rounded-lg"></button>
+  <% end %>
+  <%= link_to calendar.url_for_next_view, class: '-rotate-90 w-[40px] jus-c-item-c' do %>
+    <button class="w-[30px] h-[40px] text-[24px] ic-drop-down-g hover:box-shadow-sm rounded-lg"></button>
+  <% end %>
+  <span class="calendar-title ml-[10px] italic text-slate-800 font-semibold"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></span>
+</div>
+
+<div class="h-[60px] w-full"></div>
+
+<div class="simple-calendar overflow-y-scroll h-full">
+
+  <table class="table table-striped">
+    <thead>
+      <tr  class="bg-blue-700">
+        <% date_range.slice(0, 7).each do |day| %>
+          <th class="text-center box-border p-[6px] text-white border-collapse"><%= t('date.abbr_day_names')[day.wday] %></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: calendar.td_classes_for(day) + ['text-center', 'hover:box-shadow-lg', 'cursor-pointer'], data: { action: 'click->sync#showSyncs', controller: 'sync' } do %>
+              <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                <% capture_haml(day, sorted_events.fetch(day, []), &passed_block) %>
+              <% else %>
+                <% passed_block.call day, sorted_events.fetch(day, []) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

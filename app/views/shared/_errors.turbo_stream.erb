@@ -1,0 +1,17 @@
+<% pseudo_margin ||= false %>
+<% mr ||= 'low' %>
+
+<%if flash.key?(:notice) || flash.key?(:alert) || @resource_obj.errors.any?%>
+  <%= turbo_stream.replace 'helper' do%>
+    <div id = "helper" class="helper w-full flex items-start <%= mr=='large' ? 'mb-[53px]' : 'mb-[25px]'%> text-justify">
+      <%= image_tag flash.key?(:notice) ? 'info.svg' : 'info_red.svg', class: "pt-[5px] mr-[4px]" %>
+      <div class="helper-text <%=flash.key?(:notice) ? 'text-[#0344BF]' : 'text-[#DF0404]' %>"><%=flash[:notice] || flash[:alert] || @resource_obj.errors.full_messages.join(" and ")%></div>
+    </div>
+  <%end%>
+
+  <%if pseudo_margin%>
+    <%= turbo_stream.replace 'pseudo-margin' do%>
+      <div class="h-[1px] w-full mb-[33px] <%= resource.errors.full_messages.size != 0 || flash.key?(:notice) || flash.key?(:alert)? 'hidden' : ''%>" data-forms-target="pseudoMargin" id="pseudo-margin"></div>
+    <%end%>
+  <%end%>
+<%end%>

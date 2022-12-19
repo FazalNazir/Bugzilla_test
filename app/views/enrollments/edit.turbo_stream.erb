@@ -1,0 +1,13 @@
+<%=turbo_stream.update "section-title-#{@enrollment.id}" do%>
+  <%=form_for @enrollment,url: enrollment_path, method: :patch, html:{id:"enrollment-update-form"} do |f|%>
+    <div class="flex relative w-fit calendar-container">
+          <%= f.text_field :start_date, value:"", class: 'date-time-picker relative z-[2] bg-[rgba(0,0,0,0)] max-w-[300px] w-full h-[38px] border-[1px] border-black rounded-lg dark:bg-[rgba(0,0,0,0)] dark:border-white clr-slate dark:text-white'%>
+          <div class="w-[20px] h-[20px] ic-calendar-d absolute right-[10px] top-[9px] z-[3]" data-action="click->effects#ApplyfixedPositionBottom click->manage-user#optionsShow"></div>
+          <div class="w-[258px] h-fit fixed z-[5] bg-white top-[40px] mx-[auto] box-shadow-sm rounded-lg p-[10px] fixed-menu hidden action-menu" data-effects-target="calendar"></div>
+        </div>
+  <%end%>
+<%end%>
+
+<%=turbo_stream.update "submit-container-#{@enrollment.id}" do%>
+  <input type="submit" form="enrollment-update-form" value="Submit" class="btn-blue rounded-lg w-fit px-[10px] jus-c-item-c py-[5px]">
+<%end%>

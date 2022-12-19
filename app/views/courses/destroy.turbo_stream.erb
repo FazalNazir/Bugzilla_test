@@ -1,0 +1,7 @@
+<%= turbo_stream.update 'project-table-container' do %>
+  <%= render partial: 'shared/records_table', locals:{records: @courses, name: 'title', clas: 'course', rec_del_path: method(:course_path), rec_edit_path: method(:edit_course_path), rec_bulk_path: method(:edit_course_path)} %>
+<% end %>
+
+<%= render partial: 'shared/close_modals', locals: { modal: 'del-modal' } %>
+
+<%= render partial: 'shared/show_flash'%>

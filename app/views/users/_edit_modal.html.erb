@@ -1,0 +1,59 @@
+<div class="w-[848px] h-[480px] absolute top-[calc(50%-240px)] left-[calc(50%-424px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark">
+  <div class="w-full h-[88px] px-[26px] bg-gradient-to-b to-[#3649F9] from-[#171499] jus-b-item-c rounded-t-lg">
+  <div class="text-[25px] leading-[37.5px] font-bold text-white"><%=path == create_index_path ? 'New User' : 'Edit User' %></div>
+    <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+  </div>
+  <%= form_for @user, url: path, method: method, html:{class: 'w-flex dark:bg-light-dark'} do |f| %>
+    <div class="w-fcol jus-c-item-c h-full dark:bg-light-dark">
+      <div class="w-full mb-auto">
+        <div class="w-flex pt-[37px] px-[28px] justify-around">
+          <div class="w-fit">
+            <div class="mb-[35px]">
+              <div class="clr-blue mb-[4px] dark:text-white">Name</div>
+              <%= hidden_field_tag :from, 'modal' %>
+              <%= f.text_field :name, class: 'w-[332px] h-[58px] bor-blue border-[1px] rounded-md dark:bg-dark dark:border-white dark:text-white', value: @user.name %>
+            </div>
+            <div class="mb-[35px]">
+              <div class="clr-blue mb-[4px] dark:text-white">Password</div>
+              <%= f.password_field :password, class: 'w-[332px] h-[58px] bor-blue border-[1px] rounded-md dark:bg-dark dark:border-white dark:text-white' %>
+            </div>
+            <div class="clr-blue jus-s-item-c gap-[17px] dark:text-white">
+              Account Status:
+              <%= f.check_box :active, class: 'hidden checkbox-form', checked: @user.active %>
+              <div class="selection_container transition-all w-[34px] h-[17px] rounded-full <%= @user.active ? 'bg-blue' : 'bg-[#7E7E7E]' %> relative cursor-pointer" data-action="click->effects#statusSelect click->manage-user#checkStatus"><div class="transition-all w-[13px] h-[13px] bg-white rounded-full absolute top-[2px] <%= @user.active ? 'right-[2px]' : 'right-[19px]' %>"></div>
+              </div>
+            </div>
+          </div>
+          <div class="w-fit">
+            <div class="mb-[35px]">
+              <div class="clr-blue mb-[4px] dark:text-white">Email</div>
+              <%= f.email_field :email, class: 'w-[332px] h-[58px] bor-blue dark:bg-dark dark:border-white dark:text-white border-[1px] rounded-md', value: @user.email %>
+            </div>
+            <div class="role-field">
+              <div class="clr-blue mb-[4px] dark:text-white">Role</div>
+              <%= f.hidden_field :roles, value: "#{coma_seperated_roles(@user)}", autocomplete: 'off', class: 'roles' %>
+              <div class="w-[332px] h-[58px] bor-blue border-[1px] rounded-md jus-b-item-c px-[10px] cursor-pointer dark:text-white dark:border-white relative selection">
+                  <div class="h-[48px] overflow-y-scroll tag-container">
+                    <div class="bg-blue text-white jus-b-item-c gap-[10px] w-fit text-[14px] h-fit rounded-lg px-[10px] py-[5px] leading-[14px] float-left mb-[5px] mr-[5px] default-role-tag hidden"><span>default</span><div class="ic-cancel-w bg-auto h-[8px] w-[8px] cursor-pointer" data-name="default" data-action="click->manage-user#removeRole"></div></div>
+                    <% @user.roles.each do |role| %>
+                      <div class="bg-blue text-white jus-b-item-c gap-[10px] w-fit text-[14px] h-fit rounded-lg px-[10px] py-[5px] leading-[14px] float-left mb-[5px] mr-[5px] role-tag"><span><%=role.stylize%></span><div class="ic-cancel-w bg-auto h-[8px] w-[8px] cursor-pointer" data-name="<%= role.name %>" data-action="click->manage-user#removeRole"></div></div>
+                    <% end %>
+                  </div>
+                <div class="ic-drop-down transition-all h-full w-[50px] cursor-pointer sel-blue-cl rotate-0" data-action="click->manage-user#select click->manage-user#rotate" data-class="sel-blue"></div>
+                <div class="w-[332px] max-h-[160px] h-fit overflow-y-scroll left-0 top-[60px] absolute selection-menu hidden rounded-lg box-shadow-sm bg-white dark:bg-light-dark py-[5px]">
+                  <% all_roles.each do |role| %>
+                    <div id="<%=role.name%>" class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] <%=@user.has_role?(role.name.to_sym) ? 'hidden' : ''%>" data-name="<%=role.name%>" data-action="click->manage-user#addRole"><%= role.stylize %></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full mb-[35px] pr-[32px] jus-e-item-c mt-auto">
+        <button type="button" class="w-[162px] h-[50px] bor-blue cursor-pointer sel-white-cl border-[1px] rounded-lg mr-[16px] clr-blue dark:text-white dark:border-white dark:hover:bor-blue" data-action="click->effects#modal">Cancel</button>
+        <%= button_tag 'Save', type: :submit, class: 'w-[162px] h-[50px] bor-blue border-[1px] rounded-lg btn-blue' %>
+      </div>
+    </div>
+  <% end %>
+</div>

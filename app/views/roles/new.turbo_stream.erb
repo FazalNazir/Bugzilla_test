@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "edit-modal" do %>
+  <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 edit-modal z-[100]" id="edit-modal">
+    <%= render partial: 'roles/new_modal', locals: { hidden: false } %>
+  </div>
+<% end %>

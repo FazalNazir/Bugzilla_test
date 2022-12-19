@@ -1,0 +1,21 @@
+<%= turbo_stream.append 'section-container' do %>
+  <div class="w-full h-fit px-[20px] pt-[20px] section">
+    <%= form_for @section, url: sections_path, html:{class: "editor-form mb-[10px]"} do |f|%>
+      <%=f.hidden_field :course_id, value: @course.id%>
+      <div class="jus-b-item-c pt-7 mb-[20px]">
+        <div class="flex">
+          <div class="flex mr-[20px]">
+            <div class="mr-[10px] font-normal clr-slate">Title: </div>
+            <%= f.text_field :title, class: 'border-b-[2px] border-slate-500 no-outline outline-none' %>
+          </div>
+          <div class="flex">
+            <div class="mr-[10px] font-normal clr-slate">Duration(days): </div>
+            <%= f.number_field :days, class: 'border-b-[2px] border-slate-500 no-outline outline-none' %>
+          </div>
+        </div>
+        <button class="ml-[20px] my-[20px] btn-blue rounded-lg w-fit px-[10px] jus-c-item-c py-[5px]">submit</button>
+      </div>
+        <%= f.rich_text_area :description %>
+    <%end%>
+  </div>
+<%end%>

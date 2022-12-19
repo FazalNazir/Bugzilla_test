@@ -1,0 +1,13 @@
+<tr class="clr-slate" id= "course-row-<%= role.id %>" data-id="<%= role.id %>">
+  <td>
+    <input type="checkbox" id="check_all" class="data-check no-outline accent-blue-700" name="user_all" value="val" data-action="change->records-table#check change->records-table#bulkId" autocomplete="off" data-id="<%= role.id %>">
+  </td>
+  <td class="clr-slate flex items-center">
+    <%= role.stylize %>
+    <% if role.locked %>
+      <div class="w-[20px] h-[20px] ic-lock-g ml-[10px]"></div>
+    <% end %>
+  </td>
+  <td><%= role.description %></td>
+  <td class="text-center"><%= role.users_count %></td>
+</tr>

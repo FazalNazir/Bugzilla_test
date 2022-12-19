@@ -1,0 +1,128 @@
+@import "./display_templates.css";
+@import "./pagination.css";
+@import "./icons.css";
+@import "./loader.css";
+@import "./manage_users.css";
+@import "@uvarov.frontend/vanilla-calendar/build/vanilla-calendar.min.css";
+@import 'actiontext.css';
+@import 'trix/dist/trix.css';
+@import './select.css';
+@import "./calendar";
+@import "./evaluation.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  * {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+  }
+
+  input {
+    @apply px-[12px];
+  }
+
+  input:not(input[type="range"]):not(input[class*="no-outline"]):focus{
+    outline-style: solid;
+    outline-color: #0344BF;
+  }
+
+  input[type="checkbox"]:focus {
+    outline: none;
+  }
+
+  .eyeCl {
+    @apply top-[17px]
+  }
+
+  .eyeOp {
+    @apply top-[27px]
+  }
+
+  .eyeOp, .eyeCl {
+    @apply absolute right-[18px] cursor-pointer
+  }
+
+  .field {
+    @apply flex flex-col
+  }
+
+  .password-field {
+    @apply relative
+  }
+
+  .actions {
+    @apply w-full jus-c-item-c flex
+  }
+
+  .dashboard-table .table-head th {
+    @apply py-[18px]
+  }
+
+  .dashboard-table .options-row th {
+    @apply py-[15px]
+  }
+
+  #users-table td {
+    @apply py-[14px]
+  }
+
+  li {
+    list-style-type: disc;
+    list-style-position: inside ;
+  }
+
+  .flash-close-animation {
+    width: 88px;
+    overflow: hidden
+  }
+
+  button:disabled {
+    @apply bg-slate-500
+  }
+
+  .light .vanilla-calendar-day__btn_selected, .light .vanilla-calendar-day__btn_selected:hover, .dark .vanilla-calendar-day__btn_selected, .dark .vanilla-calendar-day__btn_selected:hover {
+    background-color: #289b95;
+    color: #fff;
+  }
+
+  .light .vanilla-calendar-years__year_selected, .light .vanilla-calendar-years__year_selected:hover, .dark .vanilla-calendar-years__year_selected, .dark .vanilla-calendar-years__year_selected:hover {
+    background-color: #20b2aa;
+    color: #fff;
+  }
+
+  .light .vanilla-calendar-months__month_selected, .light .vanilla-calendar-months__month_selected:hover, .dark .vanilla-calendar-months__month_selected, .dark .vanilla-calendar-months__month_selected:hover {
+    background-color: #20b2aa;
+    color: #fff;
+  }
+
+  .vanilla-calendar-time__content label[class*="vanilla-"] {
+    @apply w-[28px]
+  }
+
+  .light .vanilla-calendar-time__range::after, .light .vanilla-calendar-time__range::before, .dark .vanilla-calendar-time__range::after, .dark .vanilla-calendar-time__range::before {
+    content: none;
+  }
+
+  tr.active {
+    @apply border-[1px] border-blue-700
+  }
+
+  table tr {
+    @apply border-b-[1px] border-gray-200
+  }
+
+  .history-message b{
+    @apply text-black font-bold w-fit ml-[1px]
+  }
+
+  table th, table th div {
+    @apply font-medium text-[14px] leading-[21px] dark:text-white
+  }
+
+  table tr td {
+    @apply text-[14px] leading-[21px] dark:text-white
+  }
+}

@@ -1,0 +1,17 @@
+<% trainee = get_user(evaluation)%>
+<% event = evaluation_event(evaluation)%>
+<tr class='clr-slate' id= 'evaluation-row-<%= evaluation.id %>' data-id="<%= evaluation.id %>">
+    <td class='text-center'>
+        <div>
+            <div class='text-black dark:text-white font-normal'><%=trainee.name%></div>
+            <div class='dark:text-slate-300'><%=trainee.email%></div>
+        </div>
+    </td>
+    <td class='text-center'><%= event.start_date %></td>
+
+    <td class='text-center'><%= get_task(evaluation.task_id).name%></td>
+    <td class='justify-center clr-slate dark:text-slate-300 text-[14px] leading-[21px]' id= "evaluation-<%= evaluation.id %>">
+        <div class='w-full jus-c-item-c'><%= evaluation.status=='request'?  'pending' : evaluation.status %></div>
+    </td>
+    <%= show_action(evaluation) %>
+</tr>

@@ -1,0 +1,24 @@
+@layer components {
+  .eval_heading {
+    @apply pl-[100px] font-bold
+  }
+    
+  .eval_attributes {
+    @apply py-4 px-6
+  }
+    
+  .eval_header {
+    @apply py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white
+  }
+    
+  .eval_row {
+    @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-white
+  }
+
+  .eval_data {
+    @apply clr-slate dark:text-slate-300 text-[14px] leading-[21px]
+  }
+  .eval_table_h {
+    @apply text-center text-base
+  }
+}

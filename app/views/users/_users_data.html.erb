@@ -1,0 +1,49 @@
+<tr class="clr-slate" id= "user-row-<%= user.id %>" data-id="<%= user.id %>">
+  <td>
+    <input type="checkbox" id="check_all" class="data-check accent-blue-700 no-outline" name="user_all" value="val" data-action="change->records-table#check change->records-table#bulkId" autocomplete="off" data-id="<%= user.id %>">
+  </td>
+  <td>
+    <div>
+      <div class="text-black dark:text-white font-normal"><%= user.name %></div>
+      <div class="dark:text-slate-300"><%= user.email %></div>
+    </div>
+  </td>
+  <td><%= user.updated_at.to_date %></td>
+  <td class="jus-c-item-c">
+    <div class="group relative z-[2] jus-c-item-c text-[14px] font-normal leading-[21px]  cursor-pointer <%= user_counter % 2 == 0 ? 'bg-white clr-blue dark:border-white hover:text-white hover:bg-blue dark:hover:bor-blue' : 'bg-blue text-white hover:bg-blue-500 hover:border-blue-500' %> w-[31px] h-[31px] rounded-full border-[1px] bor-blue" data-action="mouseover->effects#ApplyfixedPositionTop">
+      <%= shortify_role(first_role(user)) %>
+      <ul class="w-[160px] px-[5px] py-[5px] z-[4] h-fit box-shadow-lg rounded-lg text-white bg-blue-500 border-blue-500 hidden group-hover:flex group-hover:flex-col fixed left-0 bottom-[31px] clr-blue border-[1px] fixed-menu">
+        <li><%= first_role(user).stylize %></li>
+      </ul>
+    </div>
+    <% if user.roles_count > 1 %>
+      <div class="group relative z-[1] right-[6px] jus-c-item-c text-[14px] font-normal leading-[21px] cursor-pointer <%=user_counter % 2 == 0 ? 'bg-blue text-white hover:bg-blue-500 hover:border-blue-500' : 'bg-white clr-blue dark:border-white hover:text-white hover:bg-blue dark:hover:bor-blue'%> w-[31px] h-[31px] rounded-full border-[1px] bor-blue" data-action="mouseover->effects#ApplyfixedPositionTop">
+        +<%= user.roles_count-1 %>
+        <ul class="w-[160px] px-[5px] py-[5px] z-[4] h-fit bor-blue bg-blue-500 border-blue-500 text-white box-shadow-lg rounded-lg hidden group-hover:flex group-hover:flex-col fixed left-0 bottom-[31px] clr-blue border-[1px] fixed-menu">
+          <% all_but_first_role(user).each do |role| %>
+            <li><%= role.stylize %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </td>
+  <td class="text-center"><%= user.groups.last&.title %></td>
+  <td class="justify-center clr-slate dark:text-slate-300 text-[14px] leading-[21px]" id= "user-<%= user.id %>">
+    <div class="w-full jus-c-item-c">
+      <%= link_to user_path(id: user.id, user:{active: !user.active}, from: 'status'), data: {turbo_method: :patch} do %>
+        <div class="selection_container transition-all w-[34px] h-[17px] rounded-full <%= user.active ? 'bg-blue' : 'bg-[#7E7E7E]'%> relative cursor-pointer"><div class="transition-all w-[13px] h-[13px] bg-white rounded-full absolute top-[2px] <%= user.active ? 'right-[2px]' : 'right-[19px]' %>"></div>
+        </div>
+      <% end %>
+    </div>
+  </td>
+  <td class="clr-slate dark:text-slate-300 text-center text-[14px] leading-[21px] jus-c-item-c relative action-container min-h-[43px]">
+    <div class="w-[30px] h-[30px] ic-action-options cursor-pointer translate-y-1" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottom">
+    </div>
+    <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu" id="action-menu-<%= user.id %>">
+      <%= link_to 'Edit', edit_user_path(user, modal: :edit), data:{turbo_stream: true}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+      <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]" data-action="click->manage-user#showModal" data-modal="del" data-href="<%= user_path(user.id) %>">Delete</div>
+      <%= link_to 'Add to group', edit_user_path(user, modal: :group), data:{turbo_stream: true}, class: 'block text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]' %>
+    </div>
+  </td>
+</tr>
+

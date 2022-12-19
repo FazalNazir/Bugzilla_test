@@ -1,0 +1,52 @@
+<div class="w-fcol h-[calc(100vh-175px)] pt-[20px] dark:text-white bg-white dark:bg-dark transition-all rounded-3xl mb-[33px]" data-controller="manage-user" data-manage-user-checked-value="0">
+  <div class="w-full h-[calc(100%-150px)]">
+    <div class="w-full jus-b-item-c pt-[8px] pl-[25px]">
+      <div class="font-semibold text-[22px] leading-[33px] dark:text-white"><%= @sync.event.title %></div>
+    </div>
+    <div class="mb-[20px]">
+      <div class="m-[40px] mt-[20px] p-[20px] rounded-lg bg-blue-200 dark:bg-light-dark">
+        <div class="text-[20px] text-blue-700 dark:text-white">Detail:</div>
+        <div class="flex">
+          <div class="border-r-[1px] dark:border-white border-blue-700 w-[50%] jus-c-item-s flex-col">
+            <div class="w-fcol text-[14px]">
+              <span><span class="font-medium mr-[10px]">Trainee Name:</span><%= "#{@sync.trainees.last.name}(#{@sync.trainees.last.email})" %></span>
+              <span><span class="font-medium mr-[10px]">Trainee ID:</span>001</span>
+              <span><span class="font-medium mr-[10px]">Designation:</span>Associate Software Engineer</span>
+              <span><span class="font-medium mr-[10px]">Employment Status:</span>Probation</span>
+              <span><span class="font-medium mr-[10px]">Enrolled Course:</span>Python</span>
+              <span><span class="font-medium mr-[10px]">Start Date:</span>12,12,1222</span>
+            </div>
+          </div>
+          <div class="w-[50%] px-[40px] text-[14px]">
+            <div class="border-b-[1px] border-blue-700 dark:border-white w-fcol pl-[20px] py-[5px]">
+              <span><span class="font-medium mr-[10px]">Sync Taker:</span><%= "#{@sync.supervisor&.name}(#{@sync.supervisor&.email})" %></span>
+              <span><span class="font-medium mr-[10px]">Sync Taker ID:</span>001</span>
+              <span><span class="font-medium mr-[10px]">Designation:</span>asdasd</span>
+            </div>
+            <div class="w-fcol pl-[20px] py-[5px]">
+              <span><span class="font-medium mr-[10px]">Buddy:</span>asdasdasdad</span>
+              <span><span class="font-medium mr-[10px]">Buddy ID:</span>001</span>
+              <span><span class="font-medium mr-[10px]">Designation:</span>asdasd</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-[40px] mt-0 p-[20px] rounded-lg bg-blue-200 dark:bg-light-dark h-full max-h-[350px] mb-[20px]">
+      <div class="text-[20px] text-blue-700 dark:text-white">Feedback:</div>
+      <div class="w-full jus-c-item-c">
+        <button class="h-[30px] w-[30px] rounded-full ic-drop-down rotate-90 bg-white box-shadow-sm mr-[10px] dark:bg-dark"></button>
+        <div class="w-[120px] h-[30px] bg-white rounded-full box-shadow-sm text-[14px] text-blue-700 jus-c-item-c dark:text-white mr-[10px] dark:bg-dark">This Week</div>
+        <button class="h-[30px] w-[30px] rounded-full ic-drop-down -rotate-90 bg-white box-shadow-sm dark:bg-dark"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 hidden z-[100]" id="edit-modal">
+  </div>
+
+</div>
+
+<div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal hidden z-[100]" id="modal">
+  <%= render partial: 'shared/del_modal' %>
+</div>

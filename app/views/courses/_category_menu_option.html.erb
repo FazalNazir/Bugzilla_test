@@ -1,0 +1,5 @@
+<%= link_to category_path(category), data:{turbo_stream: true} do %>
+  <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px]">
+    <div><%= category.title %></div>
+  </div>
+<% end %>

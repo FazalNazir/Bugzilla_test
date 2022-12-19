@@ -1,0 +1,19 @@
+<button class="min-w-[128px] w-fit h-[42px] rounded-lg clr-blue px-[10px] jus-b-item-c cursor-pointer sel-blue ml-[4px] text-[15px]" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenterPerfect" id="selected-task-container">
+  <span id="selected-task">Filters</span>
+  <div class="ic-drop-down-w text-white h-full px-[18px]"></div>
+</button>
+<%= search_form_for query , url: evaluations_path, method: :get, data:{turbo_stream: true}, html: { class: 'w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu', id: 'filter-search-form' } do |f| %>
+<table class="w-full mr-[7px]">
+    <tr class="border-b-[1px] border-gray-200">
+      <td class="px-[5px] py-[14px] jus-c-item-c">
+        <%= check_box_tag 'query[status_not_eq][]', '', false, data: {action: 'click->manage-user#filterCheckAll change->manage-user#submitForm'}, class: 'flt-check hidden' %>
+        <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+      </td>
+      <td class="pl-[7px] text-[14px] leading-[21px] text-black dark:text-white">ALL<td>
+    </tr>
+    <%= role_base_check_box %>
+  </table>
+  <%= hidden_field_tag :perform, 'filter' %>
+  <%= hidden_field_tag :clas, 'request' %>
+  <%= f.submit '', class: 'hidden flt-submit' %>
+<% end %>

@@ -1,0 +1,150 @@
+<table class="w-full text-left dashboard-table" id="rec-<%=clas%>-table" data-controller="records-table" data-records-table-checked-value="0" data-ids="">
+  <colgroup>
+    <col class="<%=clas=='request' || clas == 'evaluator' ? 'hidden' : ''%> min-w-[38px]" id="tbl-chk">
+    <col class="<%= clas == 'evaluator' ? 'min-w-[16.66%]' : 'min-w-[216px]'%>" id="tbl-tsk">
+    <col class="<%=clas=='group' ? 'w-[162px]' : ( clas == 'evaluator' ? 'min-w-[16.66%]' : 'min-w-[216px]')%> <%=clas != 'section' && clas != 'course' && clas != 'evaluation' && clas != 'request' ? 'hidden' : ''%>" id="tbl-sct">
+    <%unless clas == 'group'%>
+      <col class="<%= clas == 'evaluator' ? 'min-w-[16.66%]' : 'min-w-[184px]'%> " id="tbl-sec">
+      <col class="<%=clas=='role' || clas == 'task-evaluation' ? 'w-[162px]' : (clas == 'evaluator' ? 'min-w-[16.66%]' : 'min-w-[184px]')%> <%=clas != 'enrollment' && clas != 'evaluation' && clas != 'course' && clas != 'request' && clas != 'evaluator'  ? 'hidden' : ''%>" id="tbl-due">
+      <%if clas == 'evaluation' || clas == 'request' %>
+        <col class="min-w-[100px]">
+      <%end%>
+      <%unless clas == 'request'%>
+        <col class="<%= clas == 'evaluator' ? 'min-w-[16.66%]' : 'min-w-[94px]'%> <%=clas == 'role'  ? 'hidden' : ''%>" id="tbl-act">
+        <col class="min-w-[94px] <%=clas != 'enrollment' ? 'hidden' : ''%>" id="tbl-ect">
+      <%end%>
+    <%end%>
+  </colgroup>
+  <tr class="border-b-[1px] border-gray-200 table-head h-[60px] <%=clas == 'evaluator' ? 'bg-blue-700' : ''%>">
+    <%unless clas == 'evaluator' || clas == 'request'%>
+      <th class="<%=clas == 'section' ? 'w-[73px] pl-[15px]' : 'w-[38px]'%>">
+        <div class="<%=clas == 'section' ? 'jus-s-item-c' : ''%>">
+          <%if clas == 'section'%>
+            <div class="w-[10px] h-[10px] mr-[10px]"></div>
+          <%end%>
+          <input type="checkbox" id="check_all" class="hidden all-check-user" name="user_all" value="all" data-action="click->records-table#userCheckAll" data-records-table-target = 'check' autocomplete="off">
+          <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+          <%if clas == 'section'%>
+            <div class="h-[20px] border-[1px] border-slate-400 rounded-full m-auto"></div>
+          <%end%>
+        </div>
+      </th>
+    <%end%>
+    <th class="font-medium text-[14px] leading-[21px] dark:text-white flex <%=clas == 'evaluator' ? 'text-white' : ''%>">
+      <%= (clas == 'evaluation' || clas == 'request') ? 'Trainee' : ((clas == 'task-evaluation' ? 'Task' : clas.humanize) + ' ' +name.humanize) %>
+      <%unless clas == 'evaluator'%>
+        <div class="flex-col ml-[11px] h-full jus-c-item-c">
+          <a href="<%= sort_url(@query, name.to_sym, name, default_order: :asc, controller: "#{clas == 'assignment' ? 'task' : (clas == 'task-evaluation' ? 'task' : (clas == 'request' ? 'evaluation' : clas))}s", action: 'filter', from: "record_table", parent_id: (clas == 'course' ? @category.id : '')) %>" data-turbo-stream="true" class= "w-[10px] h-[10px] ic-drop-down-b rotate-180 rounded-full"></a>
+          <a href="<%= sort_url(@query, name.to_sym, name, default_order: :desc, controller: "#{clas == 'assignment' ? 'task' : (clas == 'task-evaluation' ? 'task' : (clas == 'request' ? 'evaluation' : clas))}s", action: 'filter', from: "record_table", parent_id: (clas == 'course' ? @category.id : '')) %>" data-turbo-stream="true" class= "w-[10px] h-[10px] ic-drop-down-b rounded-full"></a>
+        </div>
+      <%end%>
+    </th>
+    <th class="font-medium text-[14px] leading-[21px] dark:text-white <%=clas == 'evaluator' ? 'text-white text-center' : ''%>"><%=clas=='section' || clas == 'role' ? 'Description' : (clas == 'enrollment' ? 'Start Date' : (clas=='course' ? 'Enrollment' : (clas == 'group' ? 'Users' : (clas == 'task-evaluation' ? 'Created At' : ( (clas == 'evaluation' || clas == 'request') ? 'Requested At' : ( clas == 'evaluator' ? 'Technology' : 'Duration'))))))%></th>
+    <%unless clas == 'group'%>
+      <%if clas == 'course'%>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Created By</th>
+      <%end%>
+      <%if clas=='section'%>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Duration</th>
+      <%elsif clas == 'enrollment'%>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Due Date</th>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Status</th>
+      <%elsif clas == 'role'%>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Users</th>
+      <%elsif clas == 'course'%>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Date</th>
+      <%elsif clas == "task-evaluation"%>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Pending Evaluations</th>
+      <%elsif clas == "evaluation" || clas == 'request'%>
+        <%if clas == 'request'%>
+          <th class="font-medium text-[14px] leading-[21px] dark:text-white">Course</th>
+        <%end%>
+        <th class="font-medium text-[14px] leading-[21px] dark:text-white">Evaluator</th>
+        <%unless clas == 'request'%>
+          <th class="font-medium text-[14px] leading-[21px] dark:text-white">Evaluation Date</th>
+        <%end%>
+          <th><div class="font-medium text-[14px] leading-[21px] dark:text-white w-full h-full jus-c-item-c">Status</div></th>
+        <%unless clas == 'request'%>
+          <th><div class="w-full h-full jus-c-item-c font-medium text-[14px] leading-[21px] dark:text-white">View</div></th>
+        <%end%>
+      <%elsif clas == 'evaluator'%>
+          <th><div class="font-medium text-[14px] leading-[21px] dark:text-white w-full h-full jus-c-item-c <%=clas == 'evaluator' ? 'text-white' : ''%>">Slots</div></th>
+          <th><div class="font-medium text-[14px] leading-[21px] dark:text-white w-full h-full jus-c-item-c <%=clas == 'evaluator' ? 'text-white' : ''%>">Availability</div></th>
+          <th><div class="font-medium text-[14px] leading-[21px] dark:text-white w-full h-full jus-c-item-c <%=clas == 'evaluator' ? 'text-white' : ''%>">Queue</div></th>
+      <%end%>
+      <%unless clas == 'role' || clas == 'request'%>
+        <th class="text-center font-medium text-[14px] leading-[21px] dark:text-white <%=clas == 'evaluator' ? 'text-white' : ''%>">Actions</th>
+      <%end%>
+    <%end%>
+  </tr>
+  <tr class="hidden options-row border-b-[1px] border-gray-200 h-[60px]">
+    <%unless clas == 'request' || clas == 'evaluator'%>
+      <th class="<%=clas == 'section' ? 'w-[73px] pl-[15px]' : 'w-[38px]'%>">
+        <div class="<%=clas == 'section' ? 'jus-s-item-c' : ''%>">
+          <%if clas == 'section'%>
+            <div class="w-[10px] h-[10px] mr-[10px]"></div>
+          <%end%>
+          <input type="checkbox" id="check_all" class="hidden all-check-user" name="user_all" value="all" data-action="click->records-table#userCheckAll" autocomplete="off">
+          <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+          <%if clas == 'section'%>
+            <div class="h-[20px] border-[1px] border-slate-400 rounded-full m-auto"></div>
+          <%end%>
+        </div>
+      </th>
+    <%end%>
+    <th colspan="100%" class="w-fit">
+      <div class="user-options hidden">
+        <div class="flex font-medium text-[14px] leading-[21px] mr-[15px] jus-c-item-c dark:text-white">
+          Selected: &nbsp;<span class="clr-slate dark:text-slate-300 selected-records">0</span>&nbsp;
+        </div>
+        <%if clas == 'course' || clas == 'section'%>
+          <% unless clas == 'section'%>
+          <div class="w-fit h-[27px] bor-blue border-[1px] rounded-lg clr-blue cursor-pointer sel-white-cl mr-[15px] relative selection group dark:hover:bg-blue dark:hover:bor-blue">
+            <span class="w-full jus-b-item-c h-full font-medium text-[15px] leading-[22.5px] px-[12px] dark:text-white dark:bg-inherit rounded-lg">
+              <div class="w-[15px] h-[15px] mr-[10px] ic-edit"></div>
+                Edit
+            </span>
+          </div>
+          <a href="#" class="w-fit h-[27px] bor-blue border-[1px] rounded-lg clr-blue cursor-pointer sel-white-cl mr-[15px] relative selection group dark:hover:bg-blue dark:hover:bor-blue bulk-ids" data-href="<%=new_enrollment_path(id: '_id')%>" data-turbo-stream = "true">
+            <span class="w-full jus-b-item-c h-full font-medium text-[15px] leading-[22.5px] px-[12px] dark:text-white dark:bg-inherit rounded-lg">
+              <div class="w-[15px] h-[15px] mr-[10px] ic-user1"></div>
+                Enroll Users
+            </span>
+          </a>
+          <div class="w-fit h-[27px] bor-blue border-[1px] rounded-lg clr-blue cursor-pointer sel-white-cl mr-[15px] relative selection group dark:hover:bg-blue dark:hover:bor-blue">
+            <span class="w-full jus-b-item-c h-full font-medium text-[15px] leading-[22.5px] px-[12px] dark:text-white dark:bg-inherit rounded-lg">
+              <div class="w-[15px] h-[15px] mr-[10px] ic-user-plus"></div>
+                Collaborate
+            </span>
+          </div>
+          <%else%>
+            <div class="w-[100px] h-[27px] bor-blue border-[1px] rounded-lg clr-blue cursor-pointer sel-white-cl mr-[15px] relative selection group dark:hover:bg-blue dark:hover:bor-blue">
+              <span class="w-full jus-b-item-c h-full font-medium text-[15px] leading-[22.5px] pl-[12px] pr-[5px] dark:text-white dark:bg-inherit rounded-lg">
+                <div class="h-full jus-c-item-c">
+                  <div class="w-[15px] h-[15px] mr-[10px] ic-lock-b"></div>
+                    Lock
+                </div>
+                <div class="w-[15px] h-[15px] ic-info ml-auto"></div>
+              </span>
+            </div>
+          <%end%>
+          <div class="w-fit h-[27px]">
+            <div class="w-[30px] h-[30px] ic-action-options-b cursor-pointer rotate-90" data-action="click->manage-user#optionsShow click->effects#ApplyfixedPositionBottomCenter">
+            </div>
+            <div class="w-[163px] h-fit box-shadow-sm rounded-lg bg-white dark:bg-light-dark fixed py-[6.5px] action-menu z-[1] cursor-pointer hidden fixed-menu">
+              <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container" ><div class="ic-copy w-[20px] h-[20px] mr-[12px]"></div>Copy</div>
+              <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container" ><div class="ic-move w-[20px] h-[20px] mr-[12px]"></div>Move</div>
+              <%unless clas == 'section'%>
+                <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container" ><div class="ic-rename w-[20px] h-[20px] mr-[12px]"></div>Rename</div>
+              <%end%>
+              <div class="text-[14px] leading-[20px] clr-secondary hover:bg-secondary hover:text-white w-full py-[10px] text-left px-[9px] flex icon-container bulk-del" data-action="click->records-table#showModal" data-href="<%=rec_del_path.call('_id', (clas == 'course' ? {category_id: @category.id} : ''))%>"><div class="ic-delete-g bg-[length:19px] w-[20px] h-[20px] mr-[12px]"></div>Delete</div>
+            </div>
+          </div>
+        <%else%>
+          <div class="w-[15px] h-[19px] ic-delete mr-[15px] bg-[length:19px] self-center cursor-pointer bulk-del" data-action="click->records-table#showModal" data-href="<%=rec_del_path.call('_id')%>"></div>
+        <%end%>
+      </div>
+    </th>
+  </tr>
+  <%= render partial: 'shared/records_data', collection: records, as: :record, locals: {clas: clas, rec_del_path: rec_del_path, rec_edit_path: rec_edit_path}%>
+</table>

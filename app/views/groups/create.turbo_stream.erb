@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "groups-table" do %>
+  <%= render partial: 'groups_table' %>
+<% end %>
+
+<%= render partial: 'shared/replace_pagination_links', locals: {records: @groups} %>
+<%= render partial: 'shared/close_modals' %>
+<%= render partial: 'shared/show_flash' %>

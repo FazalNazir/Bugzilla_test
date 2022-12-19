@@ -1,0 +1,9 @@
+<%=  turbo_stream.replace "request-row-#{@evaluation.id}" do %>
+  <%=  render partial: 'shared/records_data', collection: [@evaluation], as: :record, locals: {clas: 'request', rec_del_path: method(:evaluation_path), rec_edit_path: method(:edit_evaluation_path), rec_bulk_path: method(:edit_evaluation_path)} %>
+<% end %>
+<%=  turbo_stream.replace "evaluation-row-#{@evaluation.id}" do %>
+  <%=  render partial: 'evaluations/evaluation_data', collection: [@evaluation], as: :evaluation %>
+<% end %>
+
+<%= render partial: 'shared/close_modals', locals: { modal: 'all' } %>
+<%= render partial: 'shared/show_flash' %>

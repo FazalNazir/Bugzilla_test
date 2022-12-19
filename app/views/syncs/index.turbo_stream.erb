@@ -1,0 +1,5 @@
+<%= turbo_stream.update 'sync-list' do %>
+  <%= render partial: 'sync_list_item', collection: @syncs, as: :sync %>
+<% end %>
+
+<%= render partial: 'shared/replace_pagination_links', locals: {records: @syncs} %>

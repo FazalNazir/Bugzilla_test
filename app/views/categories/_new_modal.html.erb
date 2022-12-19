@@ -1,0 +1,20 @@
+<div class="w-[848px] h-[348px] absolute top-[calc(50%-240px)] left-[calc(50%-424px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark">
+  <div class="w-full h-[88px] px-[26px] bg-gradient-to-b to-[#3649F9] from-[#171499] jus-b-item-c rounded-t-lg">
+    <div class="text-[25px] leading-[37.5px] font-bold text-white">New Category</div>
+    <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+  </div>
+  <%= form_for @category, url: categories_path(@category), html: {class: 'w-flex'} do |f| %>
+    <div class="w-fcol jus-c-item-c h-full dark:bg-light-dark">
+      <div class="w-full mb-auto">
+        <div class="w-full pt-[37px] px-[28px]">
+            <div class="clr-blue mb-[4px] dark:text-white">Title</div>
+            <%= f.text_field :title, class: 'w-full mb-[35px] h-[58px] bor-blue border-[1px] rounded-md dark:bg-dark dark:border-white dark:text-white' %>
+        </div>
+      </div>
+      <div class="w-[50%] self-end pr-[28px] mb-[35px] jus-c-item-c mt-auto">
+        <button type="button" class="w-[158px] h-[50px] bor-blue cursor-pointer sel-white-cl border-[1px] rounded-lg mr-[16px] clr-blue dark:text-white dark:border-white dark:hover:bor-blue" data-action="click->effects#modal">Cancel</button>
+        <%= button_tag 'Save', type: :submit, class: 'w-[158px] h-[50px] bor-blue border-[1px] rounded-lg btn-blue' %>
+      </div>
+    </div>
+  <% end %>
+</div>

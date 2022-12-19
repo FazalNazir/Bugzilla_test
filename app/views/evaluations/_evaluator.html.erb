@@ -1,0 +1,31 @@
+<div class='text-[25px]  dark:text-white font-bold pl-[20px] pt-7 pb-7'>Schedule Evaluation</div>
+<div class='h-[94px] w-full jus-b-item-c px-[25px] py-[20px] pr-10' id='filter-partial'>
+  <%= render partial: 'filters_button', locals: { query: @query } %>
+</div>
+<div class='pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden' id="evaluations-table">
+  <%= render layout: 'shared/records_table_shared', locals: { class_name: 'evaluations' } do %>
+    <colgroup>
+      <col class='min-w-[38px]'>
+      <col class='min-w-[184px]'>
+      <col class='min-w-[164px]'>
+      <col class='min-w-[127px]'>
+      <col class='min-w-[120px]'>
+    </colgroup>
+
+    <tr class='h-[60px] table-head'>
+      <th class='eval_table_h'>Trainee</th>
+      <th class='eval_table_h'>Evaluation Date</th>
+      <th class='eval_table_h'>Evaluation Type</th>
+      <th class='eval_table_h'>Status</th>
+      <th class='eval_table_h'>Actions</th>
+    </tr>
+
+    <tbody id='table-evaluations-body'>
+      <%= render partial: 'evaluations/evaluation_data', collection: @evaluations, as: :evaluation %>
+    </tbody>
+  <% end %>
+</div>
+<div class='h-[94px] w-full jus-b-item-c px-[25px] py-[32px] mt-auto' id='filter-pagination'>
+<%= render partial: 'shared/pagination'%>
+</div>
+

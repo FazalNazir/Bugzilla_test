@@ -1,0 +1,47 @@
+<div class="w-[600px] h-[600px] absolute top-[calc(50%-300px)] left-[calc(50%-300px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark" data-controller="modal" data-modal-order-value="evaluator,evaluation-date">
+  <div class="w-full h-[88px] px-[26px] bg-gradient-to-b to-[#3649F9] from-[#171499] jus-b-item-c rounded-t-lg mb-[20px]">
+    <div class="text-[25px] leading-[37.5px] font-bold text-white" id="assign-modal-heading">Assign Evaluator</div>
+    <% if params[:close_btn]%>
+      <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+    <% end %>
+  </div>
+  <%= form_for @evaluation, url: wizard_path(:assign_event_date, perform: :accept, evaluation_id: @evaluation.id, flow: :accept), method: :patch, html:{class: 'h-[calc(100%-88px)] w-flex flex-col evaluator-container px-[30px]', id: 'assign-evaluator-form'} do |f| %>
+    <div class="flex flex-col mb-[10px] dark:text-white ">
+      <div class="max-w-[100px] w-flex text-blue-700 items-center h-[38px]">Title</div>
+      <div class="field relative">
+      <input type="text" name="event[title]" value='<%="#{@evaluation.task.name} #{(@evaluation.re_evaluation ? 'Re-' : '')}Evaluation"%>' class="date-time-picker relative z-[2] bg-[rgba(0,0,0,0)] w-full h-[38px] border-[1px] border-blue-700 rounded-lg dark:bg-[rgba(0,0,0,0)] dark:border-white clr-slate dark:text-white">
+      </div>
+    </div>
+    <div class="w-flex gap-[20px]">
+      <div class="flex flex-col mb-[10px] dark:text-white relative w-[50%]">
+        <div class="max-w-[100px] text-blue-700 w-flex items-center h-[38px]">Date</div>
+        <div class="field relative date-only">
+          <input type="text" name="event[date]" value=<%=params[:date]%> class="date-time-picker relative z-[2] bg-[rgba(0,0,0,0)] w-full h-[40px] border-[1px] border-blue-700 rounded-lg dark:bg-[rgba(0,0,0,0)] dark:border-white clr-slate dark:text-white">
+          <div class="w-[20px] h-[20px] ic-calendar-e absolute right-[10px] top-[10px] z-[3]" data-action="click->effects#ApplyfixedPositionBottom click->manage-user#optionsShow"></div>
+          <div class="w-[258px] h-fit fixed z-[5] bg-white top-[40px] mx-[auto] box-shadow-sm rounded-lg p-[10px] fixed-menu hidden action-menu" data-effects-target="calendar"></div>
+        </div>
+      </div>
+      <div class="flex flex-col mb-[10px] dark:text-white w-[50%]">
+        <div class="w-flex items-center text-blue-700 h-[38px]">Time</div>
+        <select name="slot_id" id="cars" data-effects-target='select'>
+          <%= show_slots(@evaluator, params[:date]) %>
+        </select>
+      </div>
+    </div>
+    <div class="flex flex-col mb-[10px] dark:text-white">
+      <div class="max-w-[100px] w-flex items-center text-blue-700 h-[38px]">Location</div>
+      <div class="field relative">
+        <input type="text" name="event[location]" class="date-time-picker relative z-[2] bg-[rgba(0,0,0,0)] w-full h-[38px] border-[1px] border-blue-700 rounded-lg dark:bg-[rgba(0,0,0,0)] dark:border-white clr-slate dark:text-white">
+      </div>
+    </div>
+    <div class="flex mb-[10px] flex-col dark:text-white">
+      <div class="max-w-[100px] w-flex items-center h-[38px] text-blue-700">Description</div>
+      <div class="field relative">
+        <textarea name="event[description]" class="date-time-picker relative z-[2] bg-[rgba(0,0,0,0)] w-full border-[1px] border-blue-700 rounded-lg dark:bg-[rgba(0,0,0,0)] dark:border-white clr-slate dark:text-white max-h-[112px] h-[112px]"></textarea>
+      </div>
+    </div>
+    <div class="w-full jus-e-item-c mt-auto py-[20px]">
+      <button class="w-[100px] h-[38px] bg-blue-700 text-white border-[1px] bor-blue rounded-lg">Save</button>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,56 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   "true": "foo"
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
+en:
+  accept: "Admin accepted the evaluation request sent by <b><i>%{trainee}</i></b>. <b><i>%{evaluator}</i></b> was assigned to evaluate the task."
+  reject: "Admin rejected the evaluation request sent by <b><i>%{trainee}</i></b>."
+  evaluate: "<b><i>%{evaluator}</i></b> evaluated the <b><i>%{task}</i></b> task of <b><i>%{trainee}</i></b>."
+  assign_re_evaluation: "Admin re-assigned evaluation of <b><i>%{trainee}</i></b> to <b><i>%{evaluator}</i></b>."
+  re_evaluate: "<b><i>%{evaluator}</i></b> revaluated the <b><i>%{task}</i></b> task of <b><i>%{trainee}</i></b>."
+  complete: "Admin changed the evaluation status of <b><i>%{trainee}</i></b> to completed."
+  simple_calendar:
+    previous: "<"
+    next: ">"
+  will_paginate:
+    previous_label: ''
+    next_label: ''
+    page_entries_info:
+      single_page:
+        zero:  "No %{model} found"
+        one:   "Showing 1 %{model}"
+        other: "Showing all %{count} %{model}s"
+      single_page_html:
+        zero:  "No %{model} found"
+        one:   "Showing <b>1</b> %{model}"
+        other: "Showing all<b>&nbsp;%{count}</b> %{model}s"
+
+      multi_page: "Showing %{model}s %{from} to %{to} of %{count} entries"
+      multi_page_html: "Showing %{model}s <b>%{from}&nbsp;to&nbsp;%{to}</b> of <b>%{count}</b> entries"

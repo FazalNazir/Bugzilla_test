@@ -1,0 +1,4 @@
+<%= turbo_stream.update "filter-pagination" do%>
+  <div class="font-medium text-[14px] leading-[21px] text-[#B5B7C0]"><%= page_entries_info records %></div>
+  <div><%= will_paginate records, inner_window: 2 , outer_window: 0, renderer: @paginate_turbo_stream %></div>
+<% end %>

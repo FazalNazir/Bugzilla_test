@@ -1,0 +1,9 @@
+<%= turbo_stream.replace 'ping' do %>
+  <div class="bg-white dark:bg-dark rounded-full w-[10px] h-[10px] absolute jus-c-item-c top-[14px] right-[15px] hidden" id="ping">
+    <div class="w-[6px] h-[6px] bg-blue-700 dark:bg-white rounded-full"></div>
+  </div>
+<% end %>
+
+<%= turbo_stream.update 'notifications' do %>
+  <%= render partial: 'shared/notification', collection: @notifications, as: :notification %>
+<% end %>

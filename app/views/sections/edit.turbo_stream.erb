@@ -1,0 +1,22 @@
+<%=turbo_stream.replace "section-row-#{@section.id}" do%>
+  <tr class="border-b-[1px] border-gray-200 table-head h-[60px]">
+    <td colspan="100%">
+      <%= form_for @section, url: section_path(@section.id), method: :patch, html:{class: "editor-form mb-[10px]"} do |f|%>
+        <div class="jus-b-item-c pt-7 mb-7">
+          <div class="flex">
+            <div class="flex mr-7">
+              <div class="mr-[10px] font-normal clr-slate">Title: </div>
+              <%= f.text_field :title, class: 'border-b-[2px] border-slate-500 no-outline outline-none' %>
+            </div>
+            <div class="flex">
+              <div class="mr-[10px] font-normal clr-slate">Duration(days): </div>
+              <%= f.number_field :days, class: 'border-b-[2px] border-slate-500 no-outline outline-none' %>
+            </div>
+          </div>
+          <button class="ml-[20px] my-[20px] btn-blue rounded-lg w-fit px-[10px] jus-c-item-c py-[5px]">submit</button>
+        </div>
+        <%= f.rich_text_area :description, class: 'mb-[10px]' %>
+      <%end%>
+    </td>
+  </tr>
+<%end%>

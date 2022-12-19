@@ -1,0 +1,7 @@
+<%= turbo_stream.update "table-evaluations-body" do %>
+    <%= render partial: 'evaluations/evaluation_data', collection: @evaluations, as: :evaluation %>
+<% end %>
+
+<%= turbo_stream.update "filter-partial" do %>
+  <%= render partial: 'filters_button', locals: { query: @query } %>
+<% end %>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="min-h-[100vh]">
+  <head>
+    <title>LndSystem</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  </head>
+
+  <body data-controller="effects">
+    <div class="h-[100vh] w-flex">
+      <div class="mb-[53px] hidden"></div>
+      <div class="w-full md:w-[50%] h-full jus-c-item-c">
+        <div class= "absolute top-[0px] left-[0px] w-[calc(18.75%/2)]">
+          <%= image_tag 'Polygon_6.svg', class: 'w-full'%>
+        </div>
+        <div class="box-shadow-lg m-auto md:max-w-[450px] xl:max-w-[598px] min-w-[320px] w-fcol md:left-[calc(40%-325px)] bg-white rounded-2xl px-[20px] md:px-[60px] py-[73px] sm:absolute z-[3] overflow-y-scroll md:overflow-hidden max-h-[100vh] md:h-fit h-full transition-all">
+          <div class="w-full clr-blue text-[36px] font-semibold tracking-widest leading-[54px] mb-[26px]">L&D</div>
+          <%= yield %>
+        </div>
+      </div>
+      <div class="md:w-[50%] h-full bg-[#0344BF] md:flex flex-col jus-c-item-c hidden relative">
+        <div class= "absolute top-[0px] right-[0px] w-[33.8145%]">
+          <%= image_tag 'Polygon_5.svg', class: 'w-full' %>
+        </div>
+        <div class= "absolute bottom-[0px] right-[0px] w-[39.8958%]">
+        <%= image_tag 'Polygon_3.svg', class: 'w-full' %>
+        </div>
+        <div class="absolute top-[0px] left-[-20px] w-[37.8125%]">
+        <%= image_tag 'Polygon_4.svg', class:'w-full'%>
+        </div>
+        <p class="text-[36px] leading-[54px] text-white font-semibold">Welcome!</p>
+        <p class="text-[26px] leading-[39px] font-regular text-white">Lorem ipsum ahhshd hhsd<p>
+      </div>
+    </div>
+  </body>
+</html>

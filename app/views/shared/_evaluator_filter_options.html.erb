@@ -1,0 +1,21 @@
+      <tr class="border-b-[1px] border-gray-200">
+        <td class="px-[5px] py-[14px] jus-c-item-c">
+          <%= check_box_tag 'query[status_eq_any][]', 'ready', false, data: {action: 'change->manage-user#submitForm'}, class: 'flt-check hidden' %>
+          <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+        </td>
+        <td class="pl-[7px] text-[14px] leading-[21px] text-black dark:text-white">Ready<td>
+      </tr>
+      <tr class="border-b-[1px] border-gray-200">
+        <td class="px-[5px] py-[14px] jus-c-item-c">
+          <%= check_box_tag 'query[status_eq_any][]', 'request', false, data: {action: 'change->manage-user#submitForm'}, class: 'flt-check hidden' %>
+          <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+        </td>
+        <td class="pl-[7px] text-[14px] leading-[21px] text-black dark:text-white">Rejected<td>
+      </tr>
+      <tr>
+        <td class="px-[5px] py-[14px] jus-c-item-c">
+          <%= check_box_tag 'query[status_eq_any][]', 'done', false, data: {action: 'change->manage-user#submitForm'}, class: 'flt-check hidden' %>
+          <div class="ic-checkbox-empty w-[20px] h-[20px] hover:opacity-80" data-action="mousedown->effects#check"></div>
+        </td>
+        <td class="pl-[7px] text-[14px] leading-[21px] text-black dark:text-white">Completed<td>
+      </tr>

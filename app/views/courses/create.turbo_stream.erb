@@ -1,0 +1,11 @@
+<%= render partial: 'shared/close_modals', locals: { modal: 'edit-modal' } %>
+
+<% if !@course.errors.any? %>
+  <%= turbo_stream.replace "project-table-container" do %>
+    <div class="pl-[24px] pr-[25px] overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden" id="project-table-container">
+      <%= render partial: 'shared/records_table', locals:{records: @courses, name: 'title', clas: 'course', rec_del_path: method(:course_path), rec_edit_path: method(:edit_course_path), rec_bulk_path: method(:edit_course_path)} %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render partial: 'shared/show_flash' %>

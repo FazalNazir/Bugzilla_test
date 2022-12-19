@@ -1,0 +1,21 @@
+<div class="w-fcol h-[calc(100vh-175px)] bg-white dark:bg-dark transition-all rounded-3xl mb-[33px]">
+  <div class="pt-[29px] pb-[23px] pr-[24px] pl-[25px] jus-b-item-c">
+    <div class="font-semibold text-[22px] leading-[33px] dark:text-white">Roles</div>
+    <%= link_to new_role_path, data:{turbo_stream: true} do %>
+      <button class="w-fit px-[13px] h-[42px] rounded-lg clr-blue jus-c-item-c cursor-not-allowed text-white " disabled>
+        <div class="ic-plus w-[15px] h-[15px] mr-[12px]"></div>
+        New Role
+      </button>
+    <% end %>
+  </div>
+  <%= render partial: 'roles_table' %>
+  <div class="h-[94px] w-full jus-b-item-c px-[25px] py-[32px] mt-auto" id='filter-pagination'>
+    <div class="font-medium text-[14px] leading-[21px] text-[#B5B7C0]"><%= page_entries_info @roles %></div>
+    <div><%= will_paginate @roles, inner_window: 2 , outer_window: 0 %></div>
+  </div>
+</div>
+<div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal hidden z-[100]" id="modal">
+  <%= render partial: 'shared/del_modal'%>
+</div>
+<div class="absolute w-full h-full bg-[rgba(0,0,0,0.3)] top-0 left-0 modal hidden z-[100]" id="edit-modal">
+</div>

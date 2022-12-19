@@ -1,0 +1,13 @@
+<%= turbo_stream.replace 'sync-icon-refresh' do %>
+  <div class="ic-sync w-[20px] mr-[10px] h-full bg-no-repeat bg-center" id="sync-icon-refresh"></div>
+<% end %>
+
+<%= turbo_stream.replace 'sync-icon' do %>
+  <div class="ic-sync w-[25px] h-[25px]" id="sync-icon"></div>
+<% end %>
+
+<%= turbo_stream.update 'refresh-time' do %>
+  <%= current_user&.synchronization_record&.updated_at&.in_time_zone(TIME_ZONE)&.strftime('%d-%b-%Y ; %I:%M %p') || '---' %>
+<% end %>
+
+<%= render partial: 'shared/show_flash' %>

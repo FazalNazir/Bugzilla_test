@@ -1,0 +1,18 @@
+<%= month_calendar(events: @syncs) do |date, syncs| %>
+  <div class="w-full jus-c-item-c"><div class="date"><%= date.day %></div></div>
+
+  <%= render partial: 'sync_info', collection: syncs.first(2), as: :sync %>
+  <% if syncs.count > 2 %>
+    <div>+<%= syncs.count - 2 %> more</div>
+  <% end %>
+  <div class="absolute top-[calc(50%-150px)] left-[calc(50%-200px)] w-[400px] hidden bg-white rounded-lg box-shadow-sm max-h-[300px] h-fit p-[20px] overflow-y-scroll sync-menu" data-controller="sync">
+    <div class="jus-b-item-c">
+      <div class="italic text-slate-500">
+        <%= date.strftime("%d %B, %Y") %>
+      </div>
+      <div class="ic-cancel w-[20px] h-[20px] cursor-pointer" data-action="click->sync#closeModal">
+      </div>
+    </div>
+    <%= render partial: 'sync_info', collection: syncs, as: :sync %>
+  </div>
+<% end %>

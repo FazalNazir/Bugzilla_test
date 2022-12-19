@@ -1,0 +1,50 @@
+<div class="w-[980px] h-[700px] absolute top-[calc(50%-350px)] left-[calc(50%-490px)] bg-white rounded-lg jus-s-item-c flex-col box-shadow-md edit-modal-container dark:bg-dark" data-controller="modal">
+  <div class="w-full h-[88px] px-[26px] bg-gradient-to-b to-[#3649F9] from-[#171499] jus-b-item-c rounded-t-lg">
+    <div class="text-[25px] leading-[37.5px] font-bold text-white" id="assign-modal-heading">Assign Evaluator</div>
+    <div class="ic-cancel-w h-[44px] w-[44px]" data-action="click->effects#modal"></div>
+  </div>
+
+  <div class="h-[calc(100%-88px)] w-flex flex-col evaluator-container" id="assign-modal-body">
+    <%= search_form_for @user_query, class: 'h-fit w-flex flex-col', url: filter_users_path, data:{turbo_stream: true}, id: 'filter-search-form' do |f| %>
+      <div class="border-b-[1px] h-[90px] w-[calc(100%-40px)] self-center mt-[10px] border-t-[1px] flex overflow-x-scroll scroll-smooth" style="overflow-x: overlay;">
+        <%= show_days %>
+        <%= hidden_field_tag :date, nil %>
+        <%= hidden_field_tag :select, :slot %>
+      </div>
+      <div class="mb-[22px] pl-[20px] mt-[25px] jus-b-item-c h-[38px] w-full">
+        <div class="flex h-full w-fit">
+          <div class="h-full relative search-container">
+              <%= f.search_field :name_cont, class: 'max-w-[216px] mr-[20px] dark:bg-dark dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white w-full h-full bor-slate outline-none focus:outline-slate-500 rounded-lg bg-[#F4F6FF]', data:{ action: 'focus->manage-user#searchHide blur->manage-user#searchHide'} %>
+              <span class="absolute text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+              <%= f.hidden_field :from, value: 'request' %>
+              <%= f.submit '', class: 'flt-submit hidden' %>
+          </div>
+          <div class="text-[12px] font-normal w-[150px] mr-[20px]">
+            <select data-effects-target="select">
+              <option value="" data-placeholder>Select Technology</option>
+              <option value="1">ROR</option>
+              <option value="2">MERN</option>
+              <option value="3">Django</option>
+            </select>
+          </div>
+          <div class="text-[12px] font-normal w-[150px]">
+            <select data-effects-target="select">
+              <option value="" data-placeholder>Select Avaliability</option>
+              <option value="1">WFH</option>
+              <option value="2">On Leave</option>
+              <option value="3">In Office</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex h-full jus-e-item-c">
+          <button type="button" class="w-[100px] h-full hover:bg-blue-700 hover:text-white border-[1px] bor-blue rounded-lg clr-blue dark:border-white dark:hover:bor-blue dark:text-white dark:hover:bg-blue mr-[20px]">Clear</button>
+          <button class="w-[100px] h-full bg-blue-700 text-white border-[1px] bor-blue rounded-lg mr-[20px]">Apply</button>
+        </div>
+      </div>
+      <%= hidden_field_tag :evaluation_id, @evaluation.id %>
+    <% end %>
+    <div class="w-full h-fit max-h-[333px]" id="users-data"></div>
+    <div class="h-[94px] w-full jus-b-item-c px-[25px] py-[32px] mt-auto" id="filter-pagination-request">
+    </div>
+  </div>
+</div>

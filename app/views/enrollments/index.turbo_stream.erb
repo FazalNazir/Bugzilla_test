@@ -1,0 +1,26 @@
+<%=turbo_stream.update "course-sub-menu" do%>
+  <div class="w-full bg-blue-700 h-[81px] jus-s-item-c py-[12px] gap-x-[18px] px-[18px]">
+    <a class="h-fit" href="<%=course_path(@course.id)%>" data-turbo-stream="true"><button class="w-[130px] cursor-pointer h-[57px] hover:bg-blue-400 jus-c-item-c font-medium text-white rounded-lg">Outline</button></a>
+    <div class="h-[45px] border-[1px] border-white"></div>
+    <div class="w-[130px] cursor-pointer h-[57px] bg-white text-black jus-c-item-c rounded-lg font-medium flex pl-[4px]">
+      <div class="h-[53px] border-[2px] rounded-lg border-blue-700"></div><span class="w-full h-full jus-c-item-c clr-blue font-medium">Enrollment</span>
+    </div>
+  </div>
+  <div class="pt-[24px] pr-[24px] pl-[24px]">
+    <div class="h-[40px] relative search-container">
+      <%= search_form_for @query, class: 'h-full', url: filter_enrollments_path, data:{turbo_stream: true}, id: 'filter-search-form' do |f| %>
+        <%= f.search_field :user_name_cont, class: 'max-w-[216px] dark:bg-dark dark:border-white dark:border-[2px] dark:focus:border-none dark:text-white w-full h-full bor-slate outline-none focus:outline-slate-500 rounded-lg bg-[#F4F6FF]', data:{ action: 'focus->manage-user#searchHide blur->manage-user#searchHide input->manage-user#submitForm'} %>
+        <span class="absolute text-[#B5B7C0] top-[8px] left-0 px-[11px] flex cursor-text" data-action="click->manage-user#searchFocus"><div class="h-[24px] w-[24px] mr-[11px] ic-search cursor-text"></div>Search</span>
+        <%= f.hidden_field :course_id_eq, value: @course.id%>
+        <%= f.submit '', class: 'hidden', class: 'flt-submit'%>
+      <%end%>
+    </div>
+  </div>
+  <div class="p-[24px] w-full h-fit overflow-y-scroll" id="enrollments-table">
+    <%=render partial: 'shared/records_table', locals:{records: @enrollments, name: 'Name', clas: 'enrollment', rec_del_path: method(:enrollment_path), rec_edit_path: method(:edit_enrollment_path), rec_bulk_path: method(:edit_enrollment_path)}%>
+  </div>
+  <div class="h-[94px] w-full jus-b-item-c px-[25px] py-[32px] mt-auto" id='filter-pagination'>
+    <div class="font-medium text-[14px] leading-[21px] text-[#B5B7C0]"><%= page_entries_info @enrollments %></div>
+    <div><%= will_paginate @enrollments, inner_window: 2 , outer_window: 0, renderer: @paginate_turbo_stream %></div>
+  </div>
+<%end%>

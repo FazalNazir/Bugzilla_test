@@ -1,0 +1,15 @@
+<div class="w-fcol h-[calc(100vh-175px)] p-8 bg-white dark:bg-dark transition-all rounded-3xl mb-[33px]">
+  <%= form_for @preference, url: preference_path(@preference), data: {turbo_method: :patch} do |f| %>
+    <div class="jus-s-item-c mb-[10px]">
+      <div class="mr-[15px] dark:text-white">Dark Mode:</div>
+      <%= f.check_box :dark_mode, class:"no-outline accent-blue-700", data: { action:'change->effects#submitParentForm' } %>
+    </div>
+    <div class="flex">
+      <div class="mr-[10px] dark:text-white">Calendar:</div>
+      <div class="w-[400px]">
+        <%= f.select :calendar_name, @calendars,{}, { class: "baba", "data-effects-target" => 'select', "data-action" => 'change->effects#submitParentForm' } %>
+      </div>
+    </div>
+    <%= f.submit '', class: 'hidden' %>
+  <% end %>
+</div>

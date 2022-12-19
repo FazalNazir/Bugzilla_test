@@ -1,0 +1,33 @@
+<%=turbo_stream.update "#{params[:action] == 'new' ? ('task-new-' + @section.id.to_s) : ('assignment-row-'+ @task.id.to_s) }" do%>
+  <td colspan="100%" class="px-[20px]">
+    <div class="flex pt-7">
+      <%=form_for @task, url: (params[:action] == 'new' ? tasks_path : task_path), method: (params[:action] == 'new' ? :post : :patch), html: {id: 'new-task', class: 'flex justify-around flex-col w-full'} do |f|%>
+        <div class="w-full jus-b-item-c mb-[20px]">
+          <div class="flex w-[55%]">
+            <div class="text-[14px] font-normal mr-[8px]">Title:</div>
+            <%= f.text_field :name, class: 'no-outline outline-none px-[0px] border-b-[2px] border-black w-full'%>
+            <%= f.hidden_field :section_id %>
+          </div>
+          <div class="flex w-[23%]">
+            <div class="text-[14px] font-normal mr-[8px]">Duration:</div>
+            <%= f.number_field :duration, class: 'no-outline outline-none px-[0px] border-b-[2px] border-black w-full'%>
+          </div>
+        </div>
+        <div class="mb-[20px] w-full flex">
+          <div class="text-[14px] font-normal mr-[8px]">Description:</div>
+            <%= f.text_field :description, class: 'no-outline outline-none px-[0px] border-b-[2px] border-black w-full'%>
+        </div>
+        <div class="flex justify-end">
+          <div class="mr-[20px] my-[20px] pt-7 w-full jus-e-item-c">
+            <button type="submit" form="new-task" class="ml-[20px] box-shadow-sm my-[10px] font-regular text-[15px] w-[170px] h-[33px] px-[5px] jus-c-item-c rounded-full self-start">
+              <div class="ic-plus-b w-[30px] h-[30px]"></div><div class="clr-blue mr-[10px]"><%=params[:action] == 'new' ? 'Add' : 'Update'%></div>
+            </button>
+          </div>
+        </div>
+      <%end%>
+    </div>
+  </td>
+<%end%>
+
+<%= render partial: 'shared/show_flash'%>
+<%= render partial: 'shared/close_modals', locals: {modal: 'all'}%>
